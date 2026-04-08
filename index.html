@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Regulatorio - Sector Eléctrico</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .header-text h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .header-text p { font-size: 13px; opacity: 0.75; margin-top: 2px; }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 24px;
+            overflow-x: auto;
+            position: sticky;
+            top: 88px;
+            z-index: 99;
+        }
+        .tab {
+            padding: 14px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab:hover { color: #0f3460; background: #f8f9ff; }
+        .tab.active {
+            color: #e94560;
+            border-bottom-color: #e94560;
+        }
+        .tab-icon { font-size: 18px; }
+
+        /* ===== MAIN CONTENT ===== */
+        .main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ===== SEARCH BAR ===== */
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .search-bar:focus {
+            outline: none;
+            border-color: #e94560;
+            box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #999;
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title .icon { font-size: 22px; }
+
+        /* ===== CARDS ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .card-tag {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .tag-new { background: #e8f5e9; color: #2e7d32; }
+        .tag-modified { background: #fff3e0; color: #e65100; }
+        .tag-consultation { background: #e3f2fd; color: #1565c0; }
+        .tag-eu { background: #ede7f6; color: #4527a0; }
+        .tag-open { background: #e8f5e9; color: #2e7d32; }
+        .tag-closed { background: #ffebee; color: #c62828; }
+        .tag-upcoming { background: #fff8e1; color: #f57f17; }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+        .card-meta {
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .card-meta span { display: flex; align-items: center; gap: 4px; }
+        .card-summary {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* ===== DETAIL MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: #f5f5f5;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .modal-close:hover { background: #e0e0e0; }
+        .modal h2 { font-size: 20px; margin-bottom: 8px; padding-right: 40px; color: #1a1a2e; }
+        .modal .modal-meta {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .modal .modal-meta span { display: flex; align-items: center; gap: 4px; }
+        .modal-body { font-size: 14px; line-height: 1.7; color: #333; }
+        .modal-body h3 { font-size: 16px; font-weight: 700; margin: 16px 0 8px; color: #0f3460; }
+        .modal-body ul { padding-left: 20px; margin-bottom: 12px; }
+        .modal-body li { margin-bottom: 6px; }
+        .modal-body p { margin-bottom: 12px; }
+
+        /* ===== FILTER PILLS ===== */
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .filter-pill:hover { border-color: #e94560; color: #e94560; }
+        .filter-pill.active { background: #e94560; color: white; border-color: #e94560; }
+
+        /* ===== BENCHMARK TABLE ===== */
+        .benchmark-container { overflow-x: auto; }
+        .benchmark-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+            margin-bottom: 24px;
+        }
+        .benchmark-table th {
+            background: #1a1a2e;
+            color: white;
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        .benchmark-table td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .benchmark-table tr:last-child td { border-bottom: none; }
+        .benchmark-table tr:hover td { background: #f8f9ff; }
+        .benchmark-table .country-cell {
+            font-weight: 700;
+            color: #0f3460;
+            white-space: nowrap;
+        }
+
+        .topic-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .topic-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .topic-btn:hover { border-color: #0f3460; color: #0f3460; }
+        .topic-btn.active { background: #0f3460; color: white; border-color: #0f3460; }
+
+        /* ===== STAT CARDS (top) ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #eee;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .stat-card .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #e94560;
+        }
+        .stat-card .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .timeline-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .timeline-date {
+            min-width: 70px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .timeline-date .day { font-size: 24px; font-weight: 800; color: #e94560; }
+        .timeline-date .month { font-size: 12px; color: #888; text-transform: uppercase; }
+        .timeline-body { flex: 1; }
+        .timeline-body .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .timeline-body .desc { font-size: 13px; color: #666; line-height: 1.4; }
+
+        /* ===== CONSULTATION STATUS BAR ===== */
+        .status-bar {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 10px;
+            background: #eee;
+            overflow: hidden;
+        }
+        .status-bar .fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s;
+        }
+        .fill-open { background: linear-gradient(90deg, #2e7d32, #66bb6a); }
+        .fill-closed { background: #c62828; width: 100% !important; }
+        .fill-upcoming { background: linear-gradient(90deg, #f57f17, #ffca28); }
+
+        /* ===== NO RESULTS ===== */
+        .no-results {
+            text-align: center;
+            padding: 48px 24px;
+            color: #999;
+        }
+        .no-results .icon { font-size: 48px; margin-bottom: 12px; }
+        .no-results p { font-size: 15px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header { padding: 16px; }
+            .header-text h1 { font-size: 18px; }
+            .tabs { padding: 0 8px; }
+            .tab { padding: 12px 16px; font-size: 13px; }
+            .main { padding: 16px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .modal { padding: 24px; margin: 16px; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f5; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+    <div class="header-icon">⚡</div>
+    <div class="header-text">
+        <h1>Agente Regulatorio Eléctrico</h1>
+        <p>Monitorización normativa del sector eléctrico — España y Europa</p>
+    </div>
+</div>
+
+<!-- ===== TABS ===== -->
+<div class="tabs">
+    <div class="tab active" data-tab="nacional">
+        <span class="tab-icon">🇪🇸</span> Normativa Nacional
+    </div>
+    <div class="tab" data-tab="europea">
+        <span class="tab-icon">🇪🇺</span> Normativa Europea
+    </div>
+    <div class="tab" data-tab="consultas">
+        <span class="tab-icon">📋</span> Consultas Públicas
+    </div>
+    <div class="tab" data-tab="benchmark">
+        <span class="tab-icon">📊</span> Benchmark Europeo
+    </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+    <!-- ==================== TAB 1: NORMATIVA NACIONAL ==================== -->
+    <div class="tab-content active" id="tab-nacional">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total-nacional">0</div>
+                <div class="stat-label">Normas registradas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-cambios-nacional">0</div>
+                <div class="stat-label">Cambios recientes (2024-2025)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-afecciones">0</div>
+                <div class="stat-label">Afecciones a REE</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="search-nacional" placeholder="Buscar normativa nacional (ej: acceso, conexión, retribución, peajes...)">
+        </div>
+
+        <div class="filters" id="filters-nacional">
+            <button class="filter-pill active" data-filter="todos">Todos</button>
+            <button class="filter-pill" data-filter="ley">Leyes</button>
+            <button class="filter-pill" data-filter="rd">Reales Decretos</button>
+            <button class="filter-pill" data-filter="rdl">Reales Decretos-ley</button>
+            <button class="filter-pill" data-filter="om">Órdenes Ministeriales</button>
+            <button class="filter-pill" data-filter="circular">Circulares CNMC</button>
+        </div>
+
+        <div class="section-title"><span class="icon">🔔</span> Últimos cambios normativos</div>
+        <div id="cambios-recientes-nacional"></div>
+
+        <div class="section-title" style="margin-top:24px"><span class="icon">📚</span> Listado completo de normativa</div>
+        <div class="card-grid" id="grid-nacional"></div>
+        <div class="no-results hidden" id="no-results-nacional">
+            <div class="icon">🔍</div>
+            <p>No se encontraron resultados para tu búsqueda</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 2: NORMATIVA EUROPEA ==================== -->
+    <div class="tab-content" id="tab-europea">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total-europea">0</div>
+                <div class="stat-label">Normas europeas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-cambios-europea">0</div>
+                <div class="stat-label">Cambios recientes</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="search-europea" placeholder="Buscar normativa europea (ej: mercado interior, renovables, emisiones...)">
+        </div>
+
+        <div class="filters" id="filters-europea">
+            <button class="filter-pill active" data-filter="todos">Todos</button>
+            <button class="filter-pill" data-filter="reglamento">Reglamentos</button>
+            <button class="filter-pill" data-filter="directiva">Directivas</button>
+            <button class="filter-pill" data-filter="decision">Decisiones</button>
+            <button class="filter-pill" data-filter="codigo-red">Códigos de Red</button>
+        </div>
+
+        <div class="section-title"><span class="icon">🔔</span> Últimos cambios normativos UE</div>
+        <div id="cambios-recientes-europea"></div>
+
+        <div class="section-title" style="margin-top:24px"><span class="icon">📚</span> Listado completo de normativa europea</div>
+        <div class="card-grid" id="grid-europea"></div>
+        <div class="no-results hidden" id="no-results-europea">
+            <div class="icon">🔍</div>
+            <p>No se encontraron resultados para tu búsqueda</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 3: CONSULTAS PÚBLICAS ==================== -->
+    <div class="tab-content" id="tab-consultas">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-open">0</div>
+                <div class="stat-label">Consultas abiertas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-upcoming">0</div>
+                <div class="stat-label">Próximamente</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-closed">0</div>
+                <div class="stat-label">Cerradas recientemente</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="search-consultas" placeholder="Buscar consultas públicas (ej: peajes, acceso, renovables...)">
+        </div>
+
+        <div class="filters" id="filters-consultas">
+            <button class="filter-pill active" data-filter="todos">Todas</button>
+            <button class="filter-pill" data-filter="open">Abiertas</button>
+            <button class="filter-pill" data-filter="upcoming">Próximas</button>
+            <button class="filter-pill" data-filter="closed">Cerradas</button>
+        </div>
+
+        <div class="card-grid" id="grid-consultas"></div>
+        <div class="no-results hidden" id="no-results-consultas">
+            <div class="icon">🔍</div>
+            <p>No se encontraron consultas públicas para tu búsqueda</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4: BENCHMARK ==================== -->
+    <div class="tab-content" id="tab-benchmark">
+        <div class="section-title"><span class="icon">📊</span> Benchmark regulatorio europeo</div>
+        <p style="color:#666;font-size:14px;margin-bottom:20px;">Comparativa de aspectos clave de la regulación eléctrica en los principales países europeos.</p>
+
+        <div class="topic-selector" id="topic-selector">
+            <button class="topic-btn active" data-topic="acceso">Acceso y Conexión</button>
+            <button class="topic-btn" data-topic="retribucion">Retribución de Redes</button>
+            <button class="topic-btn" data-topic="renovables">Apoyo a Renovables</button>
+            <button class="topic-btn" data-topic="mercado">Diseño de Mercado</button>
+            <button class="topic-btn" data-topic="almacenamiento">Almacenamiento</button>
+            <button class="topic-btn" data-topic="hidrogeno">Hidrógeno Verde</button>
+        </div>
+
+        <div class="benchmark-container" id="benchmark-content"></div>
+    </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+        <button class="modal-close" id="modal-close">✕</button>
+        <h2 id="modal-title"></h2>
+        <div class="modal-meta" id="modal-meta"></div>
+        <div class="modal-body" id="modal-body"></div>
+    </div>
+</div>
+
+<script>
+// ===================================================================
+// DATA
+// ===================================================================
+
+const normativaNacional = [
+    {
+        id: "lse",
+        title: "Ley 24/2013, de 26 de diciembre, del Sector Eléctrico",
+        type: "ley",
+        date: "2013-12-26",
+        updated: "2024-06-15",
+        tag: "modified",
+        tagLabel: "Modificada",
+        summary: "Ley marco del sector eléctrico español. Regula las actividades de generación, transporte, distribución, comercialización e intercambios intracomunitarios e internacionales, así como la gestión económica y técnica del sistema eléctrico.",
+        impactoREE: "Afecta directamente a la actividad de transporte de REE como TSO. Define el marco retributivo, las obligaciones de planificación, la operación del sistema y el rol de REE como gestor técnico del sistema.",
+        detail: `<h3>Principales aspectos regulados</h3>
+<ul>
+<li>Definición de las actividades reguladas (transporte y distribución) y liberalizadas (generación y comercialización)</li>
+<li>Planificación de la red de transporte de energía eléctrica</li>
+<li>Régimen retributivo de las actividades de transporte y distribución</li>
+<li>Régimen de acceso y conexión a las redes</li>
+<li>Funcionamiento del mercado de producción de energía eléctrica</li>
+<li>Sostenibilidad económica y financiera del sistema eléctrico</li>
+<li>Régimen sancionador</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Operación del sistema:</strong> REE como operador del sistema responsable de la seguridad y continuidad del suministro</li>
+<li><strong>Planificación:</strong> Obligación de desarrollar la red de transporte conforme a la planificación vinculante del Gobierno</li>
+<li><strong>Retribución:</strong> Marco retributivo basado en costes de inversión y O&M eficientes con tasa de retribución financiera regulada</li>
+<li><strong>Acceso de terceros:</strong> Obligación de conceder acceso no discriminatorio a la red de transporte</li>
+</ul>
+<h3>Últimas modificaciones relevantes</h3>
+<p>Modificada por la Ley 7/2024 en materia de simplificación administrativa para el despliegue de renovables y para la adaptación al marco europeo Clean Energy Package.</p>`
+    },
+    {
+        id: "rd1955",
+        title: "Real Decreto 1955/2000 — Regulación del transporte, distribución, comercialización, suministro y autorización de instalaciones",
+        type: "rd",
+        date: "2000-12-01",
+        updated: "2024-03-10",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Regula las actividades de transporte, distribución, comercialización y suministro de energía eléctrica, así como los procedimientos de autorización de instalaciones eléctricas.",
+        impactoREE: "Define los procedimientos de autorización de instalaciones de transporte, los requisitos técnicos y las condiciones de acceso y conexión a la red de transporte.",
+        detail: `<h3>Contenido principal</h3>
+<ul>
+<li>Procedimientos de autorización administrativa de instalaciones eléctricas</li>
+<li>Condiciones técnicas de las instalaciones de transporte</li>
+<li>Régimen de acceso y conexión a redes de transporte y distribución</li>
+<li>Regulación de la actividad de suministro a consumidores</li>
+<li>Derechos y obligaciones de los sujetos del sistema</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li>Procedimientos de tramitación de nuevas instalaciones de transporte</li>
+<li>Requisitos técnicos para la conexión de generación y demanda a la red de transporte</li>
+<li>Obligaciones como gestor de la red de transporte</li>
+</ul>`
+    },
+    {
+        id: "rd2019_acceso",
+        title: "Real Decreto 1183/2020 — Acceso y conexión a las redes de transporte y distribución",
+        type: "rd",
+        date: "2020-12-29",
+        updated: "2024-11-01",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Regula las condiciones y procedimientos para el otorgamiento de los permisos de acceso y conexión a las redes de transporte y distribución de energía eléctrica.",
+        impactoREE: "Impacto directo en la gestión de solicitudes de acceso a la red de transporte. Define plazos, criterios y procedimientos que REE debe aplicar como responsable de otorgar permisos de acceso a la red de transporte.",
+        detail: `<h3>Aspectos clave</h3>
+<ul>
+<li>Diferenciación entre permisos de acceso (capacidad de red) y conexión (punto físico)</li>
+<li>Criterios de otorgamiento basados en capacidad disponible y estudios técnicos</li>
+<li>Plazos máximos de resolución y caducidad de permisos</li>
+<li>Garantías económicas exigibles a los solicitantes</li>
+<li>Hitos de desarrollo que deben cumplir los titulares de permisos</li>
+<li>Procedimiento de concurrencia competitiva en nudos con capacidad limitada</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Evaluación de capacidad:</strong> REE debe calcular y publicar la capacidad de acceso disponible en cada nudo de la red de transporte</li>
+<li><strong>Tramitación de solicitudes:</strong> Plazos estrictos para resolver solicitudes de acceso</li>
+<li><strong>Estudios técnicos:</strong> Obligación de realizar estudios de viabilidad de acceso</li>
+<li><strong>Digitalización:</strong> Plataforma electrónica para la tramitación de solicitudes</li>
+</ul>
+<h3>Modificaciones recientes (2024)</h3>
+<p>Modificado para agilizar la tramitación de permisos de acceso para instalaciones de almacenamiento y para adaptar los procedimientos a la Directiva (UE) 2019/944.</p>`
+    },
+    {
+        id: "rd960",
+        title: "Real Decreto 960/2020 — Régimen económico de energías renovables para instalaciones con REER",
+        type: "rd",
+        date: "2020-11-03",
+        updated: "2024-06-01",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Establece el marco regulatorio del Régimen Económico de Energías Renovables (REER), definiendo el sistema de subastas para otorgar el régimen retributivo a nuevas instalaciones de generación renovable.",
+        impactoREE: "REE participa en la integración de renovables al sistema y debe gestionar la variabilidad de generación asociada. Afecta a la planificación de red para evacuar nueva generación renovable.",
+        detail: `<h3>Marco del REER</h3>
+<ul>
+<li>Subastas competitivas como mecanismo principal de asignación</li>
+<li>Precio de adjudicación basado en energía (€/MWh)</li>
+<li>Contratos por diferencias (CfD) como instrumento retributivo</li>
+<li>Calendario de subastas por tecnología</li>
+<li>Requisitos de participación y garantías</li>
+</ul>
+<h3>Impacto en planificación de red</h3>
+<p>Las subastas REER condicionan la ubicación y volumen de nueva generación renovable, afectando directamente a las necesidades de desarrollo de la red de transporte que REE debe planificar.</p>`
+    },
+    {
+        id: "circular_6_2019",
+        title: "Circular 6/2019 CNMC — Metodología de retribución del transporte de electricidad",
+        type: "circular",
+        date: "2019-12-05",
+        updated: "2025-01-15",
+        tag: "modified",
+        tagLabel: "Actualizada",
+        summary: "Establece la metodología para el cálculo de la retribución de la actividad de transporte de energía eléctrica, incluyendo la tasa de retribución financiera y los parámetros de eficiencia.",
+        impactoREE: "Norma crítica que determina directamente los ingresos regulados de REE por su actividad de transporte. Define la tasa de retribución financiera, los costes reconocidos y los incentivos.",
+        detail: `<h3>Metodología retributiva</h3>
+<ul>
+<li>Tasa de retribución financiera sobre activos en servicio</li>
+<li>Reconocimiento de costes de inversión (CAPEX) y operación y mantenimiento (OPEX)</li>
+<li>Vida útil regulatoria de las instalaciones</li>
+<li>Incentivos por disponibilidad y calidad de servicio</li>
+<li>Factor de eficiencia aplicable a costes operativos</li>
+<li>Período regulatorio de 6 años con revisiones intermedias</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Ingresos regulados:</strong> Determina la retribución anual por la actividad de transporte</li>
+<li><strong>Planificación de inversiones:</strong> Condiciona el retorno esperado de nuevas inversiones en red</li>
+<li><strong>Eficiencia operativa:</strong> Incentivos para la reducción de costes operativos</li>
+<li><strong>Calidad de servicio:</strong> Penalizaciones y bonificaciones por indicadores de calidad</li>
+</ul>
+<h3>Actualización 2025</h3>
+<p>Revisión intermedia del período regulatorio con ajuste de la tasa de retribución financiera y actualización de los parámetros de eficiencia para el período 2025-2028.</p>`
+    },
+    {
+        id: "circular_3_2020",
+        title: "Circular 3/2020 CNMC — Metodología de cálculo de peajes de transporte y distribución",
+        type: "circular",
+        date: "2020-01-16",
+        updated: "2024-12-01",
+        tag: "modified",
+        tagLabel: "Actualizada",
+        summary: "Establece la metodología para el cálculo de los peajes de acceso a las redes de transporte y distribución de electricidad que deben pagar los usuarios del sistema.",
+        impactoREE: "Define la estructura tarifaria que genera los ingresos para cubrir los costes regulados de transporte. Afecta a la señal económica que reciben los usuarios de la red de transporte.",
+        detail: `<h3>Estructura de peajes</h3>
+<ul>
+<li>Peajes de transporte diferenciados por nivel de tensión</li>
+<li>Componente de potencia contratada y de energía consumida</li>
+<li>Períodos horarios y estacionalidad</li>
+<li>Metodología de asignación de costes entre niveles de tensión</li>
+<li>Peajes de generación para productores conectados a la red</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>Los peajes de transporte constituyen la fuente de ingresos para la retribución de la actividad de transporte de REE. La estructura tarifaria condiciona las señales económicas para la localización eficiente de generación y demanda.</p>`
+    },
+    {
+        id: "rdl_20_2018",
+        title: "Real Decreto-ley 15/2018 — Medidas urgentes para la transición energética",
+        type: "rdl",
+        date: "2018-10-05",
+        updated: null,
+        tag: "new",
+        tagLabel: "Vigente",
+        summary: "Medidas urgentes para la transición energética y la protección de consumidores, incluyendo la eliminación del impuesto al sol y la regulación del autoconsumo.",
+        impactoREE: "Marco regulatorio del autoconsumo que afecta a la demanda neta del sistema y a los flujos de energía en la red de transporte.",
+        detail: `<h3>Medidas principales</h3>
+<ul>
+<li>Eliminación del cargo por autoconsumo ("impuesto al sol")</li>
+<li>Reconocimiento del autoconsumo compartido</li>
+<li>Simplificación administrativa para instalaciones de autoconsumo</li>
+<li>Bono social eléctrico reformado</li>
+<li>Medidas de protección para consumidores vulnerables</li>
+</ul>
+<h3>Impacto sistémico</h3>
+<p>El desarrollo del autoconsumo modifica los patrones de consumo visto por la red de transporte, afectando a la operación del sistema y a las necesidades de servicios de ajuste que gestiona REE.</p>`
+    },
+    {
+        id: "rd244",
+        title: "Real Decreto 244/2019 — Condiciones del autoconsumo de energía eléctrica",
+        type: "rd",
+        date: "2019-04-05",
+        updated: "2024-09-01",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Desarrolla las condiciones administrativas, técnicas y económicas del autoconsumo de energía eléctrica. Establece las modalidades de autoconsumo y el régimen de compensación de excedentes.",
+        impactoREE: "Afecta a la previsión de demanda y a la operación del sistema. El autoconsumo distribuido reduce la demanda vista por la red de transporte y puede crear rampas de generación convencional.",
+        detail: `<h3>Modalidades de autoconsumo</h3>
+<ul>
+<li>Autoconsumo sin excedentes</li>
+<li>Autoconsumo con excedentes acogido a compensación</li>
+<li>Autoconsumo con excedentes no acogido a compensación</li>
+<li>Autoconsumo colectivo</li>
+</ul>
+<h3>Impacto en la operación del sistema</h3>
+<p>REE debe integrar la generación distribuida por autoconsumo en sus modelos de previsión de demanda y gestión de restricciones técnicas.</p>`
+    },
+    {
+        id: "pniec",
+        title: "Plan Nacional Integrado de Energía y Clima 2021-2030 (PNIEC)",
+        type: "ley",
+        date: "2021-03-25",
+        updated: "2024-10-01",
+        tag: "modified",
+        tagLabel: "Actualizado",
+        summary: "Plan estratégico que establece los objetivos de descarbonización, eficiencia energética, renovables y seguridad de suministro para el período 2021-2030.",
+        impactoREE: "Define los objetivos de generación renovable que condicionan directamente la planificación de la red de transporte. El PNIEC actualizado eleva los objetivos a 81% de renovables en generación eléctrica para 2030.",
+        detail: `<h3>Objetivos 2030 actualizados</h3>
+<ul>
+<li>81% de energía renovable en generación eléctrica</li>
+<li>48% de renovables sobre consumo final de energía</li>
+<li>Reducción del 32% de emisiones GEI respecto a 1990</li>
+<li>44% de mejora de eficiencia energética</li>
+<li>62 GW eólicos y 76 GW fotovoltaicos instalados</li>
+</ul>
+<h3>Impacto en red de transporte</h3>
+<p>El cumplimiento del PNIEC requiere un desarrollo masivo de la red de transporte para integrar la nueva generación renovable. REE estima inversiones superiores a 7.000 M€ en el período 2025-2030.</p>`
+    },
+    {
+        id: "circular_1_2021",
+        title: "Circular 1/2021 CNMC — Directrices del mercado de balance",
+        type: "circular",
+        date: "2021-01-20",
+        updated: "2024-07-01",
+        tag: "modified",
+        tagLabel: "Modificada",
+        summary: "Establece las directrices de funcionamiento de los mercados de balance del sistema eléctrico, adaptando la regulación al Reglamento (UE) 2017/2195 sobre directrices de balance.",
+        impactoREE: "Define las reglas del mercado de balance que REE gestiona como operador del sistema. Incluye productos estándar, plataformas europeas y procesos de activación.",
+        detail: `<h3>Aspectos regulados</h3>
+<ul>
+<li>Productos de balance: RR, mFRR, aFRR</li>
+<li>Procesos de activación de reservas</li>
+<li>Modelo de liquidación de desvíos</li>
+<li>Integración con plataformas europeas (TERRE, MARI, PICASSO)</li>
+<li>Requisitos de precalificación de proveedores de servicios de balance</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>REE como operador del sistema es responsable de la gestión del mercado de balance. La integración con plataformas europeas supone un cambio operativo significativo.</p>`
+    },
+    {
+        id: "om_peajes_2025",
+        title: "Orden TED/1232/2024 — Peajes de acceso de energía eléctrica para 2025",
+        type: "om",
+        date: "2024-12-20",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nueva",
+        summary: "Establece los peajes de acceso de energía eléctrica aplicables a partir del 1 de enero de 2025, incluyendo los peajes de transporte y distribución.",
+        impactoREE: "Determina los precios de los peajes de transporte que financian la retribución de REE para el ejercicio 2025.",
+        detail: `<h3>Principales novedades</h3>
+<ul>
+<li>Actualización de peajes de transporte en AT y MAT</li>
+<li>Revisión de períodos horarios</li>
+<li>Ajuste por desviaciones de ingresos regulados del ejercicio anterior</li>
+<li>Adaptación a la nueva estructura de costes del sistema</li>
+</ul>
+<h3>Impacto en financiación de REE</h3>
+<p>Los peajes determinan la recaudación por acceso a redes que financia la retribución de la actividad de transporte de REE en 2025.</p>`
+    },
+    {
+        id: "rd_planificacion",
+        title: "Real Decreto de Planificación de la Red de Transporte 2025-2030",
+        type: "rd",
+        date: "2024-11-15",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Aprueba la planificación de la red de transporte de energía eléctrica para el período 2025-2030, incluyendo las inversiones necesarias para la integración de renovables y la interconexión con Francia y Portugal.",
+        impactoREE: "Norma clave que define las inversiones obligatorias de REE en los próximos 5 años. Incluye más de 50 actuaciones en la red de transporte de 400 kV y 220 kV.",
+        detail: `<h3>Principales actuaciones</h3>
+<ul>
+<li>Refuerzo del eje mediterráneo (400 kV) para evacuación de renovables</li>
+<li>Nueva interconexión submarina con Francia por el Golfo de Vizcaya (2 GW)</li>
+<li>Refuerzo del eje Aragón-País Vasco para integración eólica</li>
+<li>Mallado de la red en Andalucía y Extremadura para fotovoltaica</li>
+<li>Ampliación de la interconexión con Portugal (3ª interconexión)</li>
+<li>Desarrollo de red submarina para eólica offshore</li>
+</ul>
+<h3>Inversiones estimadas</h3>
+<p>Inversión total prevista: 7.500 M€ en el período 2025-2030. REE debe ejecutar esta planificación con carácter obligatorio conforme a la Ley del Sector Eléctrico.</p>`
+    },
+    {
+        id: "rd_almacenamiento",
+        title: "Real Decreto de regulación del almacenamiento de energía eléctrica",
+        type: "rd",
+        date: "2024-09-20",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Establece el marco regulatorio para el almacenamiento de energía eléctrica, incluyendo su clasificación como actividad independiente, los requisitos de acceso y conexión, y su participación en los mercados.",
+        impactoREE: "Define el marco para que REE pueda operar almacenamiento como TSO en casos excepcionales. Establece nuevas categorías de conexión a la red de transporte para instalaciones de almacenamiento.",
+        detail: `<h3>Marco regulatorio del almacenamiento</h3>
+<ul>
+<li>Clasificación del almacenamiento como actividad diferenciada</li>
+<li>Propiedad de almacenamiento por TSO y DSO en casos excepcionales</li>
+<li>Participación del almacenamiento en mercados mayoristas y de balance</li>
+<li>Requisitos de acceso y conexión específicos</li>
+<li>Hibridación de generación con almacenamiento</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>REE podrá operar almacenamiento a gran escala como herramienta de operación del sistema cuando no exista interés de mercado. Además, debe adaptar sus procedimientos de acceso para instalaciones de almacenamiento stand-alone e híbridas.</p>`
+    },
+    {
+        id: "circular_8_2019",
+        title: "Circular 8/2019 CNMC — Metodología de retribución de la distribución",
+        type: "circular",
+        date: "2019-12-05",
+        updated: "2024-06-01",
+        tag: "modified",
+        tagLabel: "Actualizada",
+        summary: "Establece la metodología para el cálculo de la retribución de la actividad de distribución de energía eléctrica.",
+        impactoREE: "Si bien afecta primariamente a distribuidoras, la retribución de distribución incide en los costes totales del sistema que determinan los peajes, afectando indirectamente a REE.",
+        detail: `<h3>Contenido principal</h3>
+<ul>
+<li>Retribución de la actividad de distribución por empresa</li>
+<li>Costes de inversión y operación reconocidos</li>
+<li>Incentivos de calidad de suministro</li>
+<li>Incentivos de reducción de pérdidas</li>
+<li>Modelo de empresa eficiente</li>
+</ul>`
+    },
+    {
+        id: "rd_offshore",
+        title: "Real Decreto de Ordenación del Espacio Marítimo para eólica offshore",
+        type: "rd",
+        date: "2024-07-10",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Regula la ordenación del espacio marítimo para la instalación de parques eólicos offshore en aguas españolas, incluyendo los POEMs (Planes de Ordenación del Espacio Marítimo).",
+        impactoREE: "REE debe desarrollar la red de transporte submarina necesaria para evacuar la generación eólica marina. Implica nuevas tecnologías (HVDC) y significativas inversiones.",
+        detail: `<h3>Zonas de desarrollo</h3>
+<ul>
+<li>Zonas de Alto Potencial (ZAP) en costas de Galicia, Canarias y Andalucía</li>
+<li>Procedimiento de autorización de parques offshore</li>
+<li>Evaluación ambiental estratégica de los POEMs</li>
+<li>Requisitos de conexión a la red de transporte terrestre</li>
+</ul>
+<h3>Impacto en red de transporte</h3>
+<p>Desarrollo de infraestructura submarina HVDC para conectar parques offshore. REE estima necesidades de inversión de 3.000-5.000 M€ en infraestructura submarina para el período 2030-2040.</p>`
+    }
+];
+
+const normativaEuropea = [
+    {
+        id: "cep_944",
+        title: "Directiva (UE) 2019/944 — Normas comunes para el mercado interior de la electricidad",
+        type: "directiva",
+        date: "2019-06-05",
+        updated: "2024-12-01",
+        tag: "eu",
+        tagLabel: "CEP",
+        summary: "Directiva central del Clean Energy Package que establece las normas comunes para el mercado interior de la electricidad, incluyendo derechos de consumidores, comunidades energéticas y regulación de DSO/TSO.",
+        impactoREE: "Define las obligaciones de REE como TSO en el marco europeo: independencia, transparencia, desarrollo de red coordinado y cooperación con ENTSO-E.",
+        detail: `<h3>Aspectos clave</h3>
+<ul>
+<li>Modelo de TSO independiente (ITO, ISO o OU)</li>
+<li>Obligaciones de transparencia y no discriminación del TSO</li>
+<li>Plan de desarrollo de la red a 10 años (TYNDP)</li>
+<li>Comunidades ciudadanas de energía</li>
+<li>Derechos de consumidores activos y agregadores independientes</li>
+<li>Regulación del almacenamiento por TSO/DSO</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>REE debe cumplir con los requisitos de independencia como TSO certificado bajo el modelo de separación patrimonial. Obligación de participar en ENTSO-E y en los planes de desarrollo de red europeos.</p>`
+    },
+    {
+        id: "cep_943",
+        title: "Reglamento (UE) 2019/943 — Mercado interior de la electricidad",
+        type: "reglamento",
+        date: "2019-06-05",
+        updated: "2025-01-10",
+        tag: "eu",
+        tagLabel: "CEP",
+        summary: "Reglamento del mercado interior de electricidad que establece las reglas de funcionamiento de los mercados mayoristas, gestión de congestiones, mecanismos de capacidad y cooperación regional.",
+        impactoREE: "Define las reglas de cálculo de capacidad transfronteriza, los mecanismos de capacidad y las obligaciones de REE en la coordinación regional de operación del sistema.",
+        detail: `<h3>Reglas principales</h3>
+<ul>
+<li>Cálculo de capacidad de intercambio transfronterizo (mínimo 70% min RAM)</li>
+<li>Reglas de los mercados diario e intradiario</li>
+<li>Mecanismos de capacidad sujetos a aprobación de la CE</li>
+<li>Centros de coordinación regional (RCC)</li>
+<li>Costes de redespacho y compensación de restricciones</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>Obligación de ofrecer mínimo el 70% de la capacidad de la red al comercio transfronterizo. REE participa en el SWE (South West Europe) como región de cálculo de capacidad. Coordinación a través del RCC de Coreso.</p>`
+    },
+    {
+        id: "reg_2195",
+        title: "Reglamento (UE) 2017/2195 — Directrices sobre balance de electricidad (EBGL)",
+        type: "codigo-red",
+        date: "2017-11-23",
+        updated: "2024-08-01",
+        tag: "eu",
+        tagLabel: "Código de Red",
+        summary: "Establece las directrices sobre balance de electricidad, definiendo las reglas armonizadas para los mercados de balance en Europa.",
+        impactoREE: "REE como TSO debe implementar las plataformas europeas de balance: TERRE (RR), MARI (mFRR), PICASSO (aFRR) e IN (imbalance netting).",
+        detail: `<h3>Plataformas europeas de balance</h3>
+<ul>
+<li><strong>TERRE:</strong> Plataforma de activación de reservas de restitución (RR)</li>
+<li><strong>MARI:</strong> Plataforma de activación de reservas manuales de frecuencia (mFRR)</li>
+<li><strong>PICASSO:</strong> Plataforma de activación de reservas automáticas (aFRR)</li>
+<li><strong>IN:</strong> Plataforma de compensación de desvíos (imbalance netting)</li>
+</ul>
+<h3>Estado de implementación por REE</h3>
+<p>TERRE y MARI en fase de go-live. PICASSO en fase de test. IN operativa desde 2023 con Francia y Portugal.</p>`
+    },
+    {
+        id: "reg_2196",
+        title: "Reglamento (UE) 2017/2196 — Código de red sobre emergencia y reposición (NC ER)",
+        type: "codigo-red",
+        date: "2017-11-24",
+        updated: null,
+        tag: "eu",
+        tagLabel: "Código de Red",
+        summary: "Código de red europeo sobre procedimientos de emergencia y reposición del servicio, estableciendo reglas armonizadas para gestionar situaciones de crisis del sistema eléctrico.",
+        impactoREE: "Define las obligaciones de REE en la preparación, gestión y recuperación de estados de emergencia del sistema eléctrico, incluyendo planes de reposición del servicio.",
+        detail: `<h3>Contenido principal</h3>
+<ul>
+<li>Definición de estados del sistema (normal, alerta, emergencia, blackout, reposición)</li>
+<li>Plan de defensa del sistema</li>
+<li>Plan de reposición del servicio</li>
+<li>Pruebas de capacidad de arranque autónomo (black start)</li>
+<li>Coordinación con TSOs vecinos</li>
+</ul>`
+    },
+    {
+        id: "fit_for_55",
+        title: "Reglamento (UE) 2023/857 — Revisión del régimen de comercio de emisiones (ETS)",
+        type: "reglamento",
+        date: "2023-05-10",
+        updated: "2024-10-01",
+        tag: "modified",
+        tagLabel: "Fit for 55",
+        summary: "Reforma del sistema de comercio de emisiones de la UE como parte del paquete Fit for 55, reduciendo el techo de emisiones y ampliando el ámbito de aplicación.",
+        impactoREE: "El encarecimiento de los derechos de emisión acelera la transición hacia renovables, aumentando la variabilidad de la generación y la necesidad de flexibilidad en la operación del sistema.",
+        detail: `<h3>Principales cambios</h3>
+<ul>
+<li>Reducción del techo de emisiones: -62% en 2030 respecto a 2005</li>
+<li>Eliminación progresiva de asignación gratuita</li>
+<li>Mecanismo CBAM (ajuste en frontera de carbono)</li>
+<li>Fondo de Innovación ampliado</li>
+<li>Extensión al transporte marítimo</li>
+</ul>
+<h3>Impacto sistémico</h3>
+<p>Los precios de CO2 más elevados aceleran el cierre de centrales térmicas convencionales, requiriendo a REE mayor gestión de flexibilidad y servicios de ajuste.</p>`
+    },
+    {
+        id: "red_iii",
+        title: "Directiva (UE) 2023/2413 — Directiva de Energías Renovables (RED III)",
+        type: "directiva",
+        date: "2023-10-31",
+        updated: null,
+        tag: "eu",
+        tagLabel: "RED III",
+        summary: "Revisión de la Directiva de Energías Renovables que eleva el objetivo al 42,5% de renovables en consumo final de energía para 2030 y establece zonas de aceleración de renovables.",
+        impactoREE: "Las zonas de aceleración de renovables y los plazos reducidos de tramitación requieren una planificación anticipada de la red de transporte para garantizar la evacuación.",
+        detail: `<h3>Objetivos y medidas</h3>
+<ul>
+<li>42,5% de renovables en consumo final (objetivo vinculante), aspiración del 45%</li>
+<li>Zonas de aceleración de renovables con permisos simplificados</li>
+<li>Plazos máximos de tramitación: 12 meses en zonas de aceleración, 24 meses fuera</li>
+<li>Principio de interés público superior para las renovables</li>
+<li>Objetivos sectoriales: industria, edificios, transporte</li>
+</ul>`
+    },
+    {
+        id: "reg_sogl",
+        title: "Reglamento (UE) 2017/1485 — Directrices de operación del sistema (SO GL)",
+        type: "codigo-red",
+        date: "2017-08-02",
+        updated: "2024-06-01",
+        tag: "eu",
+        tagLabel: "Código de Red",
+        summary: "Directrices para la operación del sistema de transmisión de electricidad, definiendo requisitos de seguridad operacional, planificación operativa y gestión de frecuencia.",
+        impactoREE: "Define las obligaciones operativas de REE como TSO: control de frecuencia, gestión de tensiones, coordinación regional y evaluación de adecuación del sistema.",
+        detail: `<h3>Aspectos regulados</h3>
+<ul>
+<li>Criterios de seguridad operacional (N-1, N-2 para interconexiones)</li>
+<li>Control de frecuencia y reservas operativas</li>
+<li>Gestión de tensiones y potencia reactiva</li>
+<li>Evaluación de adecuación de generación</li>
+<li>Coordinación operativa con TSOs vecinos</li>
+<li>Formación y certificación de operadores de sala</li>
+</ul>`
+    },
+    {
+        id: "cacm",
+        title: "Reglamento (UE) 2015/1222 — CACM: Asignación de capacidad y gestión de congestiones",
+        type: "codigo-red",
+        date: "2015-07-24",
+        updated: "2024-09-01",
+        tag: "modified",
+        tagLabel: "Código de Red",
+        summary: "Establece las directrices para la asignación de capacidad y gestión de congestiones en los mercados diario e intradiario, base del acoplamiento de mercados europeos.",
+        impactoREE: "REE participa en el acoplamiento de mercados (SDAC/SIDC) y debe calcular la capacidad de intercambio disponible con Francia, Portugal y Marruecos conforme a la metodología flow-based o NTC.",
+        detail: `<h3>Mecanismos de mercado</h3>
+<ul>
+<li>Single Day-Ahead Coupling (SDAC) — acoplamiento diario</li>
+<li>Single Intraday Coupling (SIDC) — acoplamiento intradiario continuo</li>
+<li>Metodologías de cálculo de capacidad: NTC y Flow-Based</li>
+<li>Regiones de cálculo de capacidad (CCR)</li>
+<li>Coordinación a través de Nominated Electricity Market Operators (NEMOs)</li>
+</ul>`
+    },
+    {
+        id: "emd_reform",
+        title: "Reglamento (UE) 2024/1747 — Reforma del diseño del mercado eléctrico",
+        type: "reglamento",
+        date: "2024-06-26",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Reforma del diseño del mercado eléctrico europeo introduciendo contratos por diferencias (CfD), PPAs facilitados, y mayor protección del consumidor frente a la volatilidad de precios.",
+        impactoREE: "Nuevas obligaciones para TSOs en la facilitación de PPAs, gestión de la firmeza de capacidad renovable y coordinación de los nuevos mecanismos de flexibilidad.",
+        detail: `<h3>Principales innovaciones</h3>
+<ul>
+<li>CfD bidireccionales obligatorios para apoyo público a renovables</li>
+<li>Facilitación de PPAs: garantías públicas y mercados organizados</li>
+<li>Contratos de largo plazo para estabilizar precios al consumidor</li>
+<li>Mecanismos de capacidad reformados</li>
+<li>Derecho a contratos de precio fijo para consumidores</li>
+<li>Peak shaving product gestionado por TSOs</li>
+</ul>
+<h3>Impacto en REE</h3>
+<p>REE debe implementar el peak shaving product y adaptar sus procedimientos de operación a los nuevos mecanismos de flexibilidad. Mayor coordinación requerida con ACER y ENTSO-E.</p>`
+    },
+    {
+        id: "tyndp_2024",
+        title: "TYNDP 2024 — Plan decenal de desarrollo de la red de ENTSO-E",
+        type: "decision",
+        date: "2024-11-01",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Plan decenal de desarrollo de la red de transporte europea elaborado por ENTSO-E, identificando los proyectos de infraestructura transfronteriza necesarios para alcanzar los objetivos energéticos y climáticos de la UE.",
+        impactoREE: "Incluye proyectos de interconexión española con Francia (Golfo de Vizcaya), Portugal (3ª interconexión) y potencial conexión submarina con Italia. REE participa activamente en la elaboración como miembro de ENTSO-E.",
+        detail: `<h3>Proyectos clave para España</h3>
+<ul>
+<li>Interconexión submarina España-Francia por el Golfo de Vizcaya (2 GW, PCI)</li>
+<li>3ª interconexión España-Portugal (refuerzo corredor Duero)</li>
+<li>Estudio de viabilidad interconexión España-Italia (corredor Baleares-Cerdeña)</li>
+<li>Refuerzos internos para alcanzar el objetivo de 70% min RAM</li>
+</ul>
+<h3>Escenarios TYNDP 2024</h3>
+<p>Tres escenarios: National Trends, Distributed Energy, Global Ambition. Todos requieren un desarrollo significativo de las interconexiones de la Península Ibérica.</p>`
+    },
+    {
+        id: "grid_action_plan",
+        title: "EU Grid Action Plan — Plan de Acción Europeo para las Redes Eléctricas",
+        type: "decision",
+        date: "2023-11-28",
+        updated: "2024-05-01",
+        tag: "eu",
+        tagLabel: "Acción CE",
+        summary: "Plan de acción de la Comisión Europea para acelerar el desarrollo de las redes eléctricas, reconociendo que la red es el cuello de botella de la transición energética.",
+        impactoREE: "La CE reconoce la necesidad de duplicar la inversión en redes. Propone medidas de simplificación administrativa, financiación innovadora y planificación anticipada que benefician a REE.",
+        detail: `<h3>Medidas principales</h3>
+<ul>
+<li>Objetivo: 584.000 M€ de inversión en redes europeas hasta 2030</li>
+<li>Simplificación de procedimientos de permisos para redes</li>
+<li>Mejora del acceso a financiación (CEF, InvestEU)</li>
+<li>Planificación anticipada de red para zonas de aceleración de renovables</li>
+<li>Innovación: redes inteligentes, HVDC, superconductores</li>
+<li>Cooperación regional reforzada</li>
+</ul>`
+    }
+];
+
+const consultasPublicas = [
+    {
+        id: "cp1",
+        title: "Consulta pública sobre la propuesta de Circular de peajes de transporte y distribución para 2026",
+        organismo: "CNMC",
+        fechaPublicacion: "2025-03-15",
+        fechaFin: "2025-04-30",
+        status: "open",
+        summary: "Propuesta de modificación de la metodología de peajes con introducción de nuevas señales de localización para incentivar el uso eficiente de la red.",
+        detail: `<h3>Objeto de la consulta</h3>
+<p>La CNMC somete a consulta pública la propuesta de modificación de la Circular 3/2020 sobre metodología de peajes de transporte y distribución, incluyendo:</p>
+<ul>
+<li>Revisión de los componentes de potencia y energía</li>
+<li>Introducción de señales de localización geográfica</li>
+<li>Actualización de períodos horarios adaptados a la nueva curva de demanda</li>
+<li>Tratamiento del autoconsumo y almacenamiento</li>
+</ul>
+<h3>Impacto para Red Eléctrica</h3>
+<p>Los peajes de transporte financian la retribución de REE. La modificación de la estructura tarifaria puede alterar las señales económicas a generadores y consumidores, afectando a los flujos de energía y las necesidades de inversión en red.</p>
+<h3>Plazo de alegaciones</h3>
+<p>Las alegaciones deben presentarse antes del 30 de abril de 2025 a través del registro electrónico de la CNMC.</p>`
+    },
+    {
+        id: "cp2",
+        title: "Consulta pública sobre la revisión del Plan de Desarrollo de la Red de Transporte 2025-2030",
+        organismo: "MITECO",
+        fechaPublicacion: "2025-02-20",
+        fechaFin: "2025-05-20",
+        status: "open",
+        summary: "Revisión de la planificación de la red de transporte para incorporar nuevas necesidades derivadas de la actualización del PNIEC y los objetivos de eólica offshore.",
+        detail: `<h3>Alcance de la revisión</h3>
+<p>El Ministerio para la Transición Ecológica somete a información pública la propuesta de revisión del Plan de Desarrollo de la Red de Transporte 2025-2030:</p>
+<ul>
+<li>Nuevas líneas de 400 kV para evacuación de renovables en Aragón y Andalucía</li>
+<li>Infraestructura de conexión para eólica offshore en Galicia y Canarias</li>
+<li>Refuerzo de la interconexión con Francia (proyecto Golfo de Vizcaya)</li>
+<li>Digitalización de la red: sensórica, automatización y comunicaciones</li>
+</ul>
+<h3>Impacto para REE</h3>
+<p>La planificación de red es vinculante para REE. Las actuaciones incluidas determinan las inversiones obligatorias y los plazos de ejecución.</p>`
+    },
+    {
+        id: "cp3",
+        title: "Consulta sobre metodología de cálculo de capacidad de acceso a la red de transporte",
+        organismo: "CNMC",
+        fechaPublicacion: "2025-01-10",
+        fechaFin: "2025-03-10",
+        status: "closed",
+        summary: "Propuesta de nueva metodología para calcular la capacidad de acceso disponible en los nudos de la red de transporte, incorporando análisis probabilísticos.",
+        detail: `<h3>Propuesta metodológica</h3>
+<p>La CNMC propone una nueva metodología que incorpora:</p>
+<ul>
+<li>Análisis probabilístico de capacidad (frente al determinístico actual)</li>
+<li>Factor de simultaneidad de generación renovable</li>
+<li>Capacidad de acceso dinámica basada en condiciones meteorológicas</li>
+<li>Integración del almacenamiento en el cálculo de capacidad</li>
+</ul>
+<h3>Resultado</h3>
+<p>La consulta recibió 47 alegaciones. La CNMC publicará la resolución definitiva en el segundo trimestre de 2025.</p>`
+    },
+    {
+        id: "cp4",
+        title: "Consulta pública sobre la propuesta de Circular de retribución del transporte para el período 2026-2031",
+        organismo: "CNMC",
+        fechaPublicacion: "2025-04-01",
+        fechaFin: "2025-06-15",
+        status: "open",
+        summary: "Propuesta de revisión de la Circular 6/2019 para el nuevo período regulatorio 2026-2031, incluyendo la actualización de la tasa de retribución financiera y los parámetros de eficiencia.",
+        detail: `<h3>Principales propuestas</h3>
+<ul>
+<li>Actualización de la tasa de retribución financiera al coste de capital vigente</li>
+<li>Revisión de vidas útiles regulatorias de activos de transporte</li>
+<li>Nuevos incentivos de innovación y digitalización de la red</li>
+<li>Factor de eficiencia actualizado basado en benchmarking europeo</li>
+<li>Reconocimiento de costes de ciberseguridad</li>
+<li>Tratamiento de activos para evacuación de renovables y eólica offshore</li>
+</ul>
+<h3>Impacto crítico para REE</h3>
+<p>Esta circular determinará los ingresos regulados de REE durante los próximos 6 años. La tasa de retribución financiera y los criterios de eficiencia son los parámetros más sensibles para la rentabilidad de la actividad de transporte.</p>`
+    },
+    {
+        id: "cp5",
+        title: "Public consultation on the revision of the Network Code on Electricity Balancing",
+        organismo: "ACER / ENTSO-E",
+        fechaPublicacion: "2025-03-01",
+        fechaFin: "2025-05-31",
+        status: "open",
+        summary: "Revisión del código de red de balance europeo para adaptarlo a un sistema con alta penetración de renovables y nuevos proveedores de flexibilidad.",
+        detail: `<h3>Propuestas de modificación</h3>
+<ul>
+<li>Reducción del período de liquidación de desvíos a 15 minutos</li>
+<li>Apertura del mercado de balance a agregadores y almacenamiento</li>
+<li>Armonización de productos de balance estándar</li>
+<li>Mejora de las plataformas europeas (MARI, PICASSO, TERRE)</li>
+<li>Nuevos requisitos de transparencia en la activación de reservas</li>
+</ul>
+<h3>Impacto para REE</h3>
+<p>REE deberá adaptar sus sistemas de operación al período de 15 minutos y abrir el mercado de balance a nuevos participantes, incluyendo demand response agregada y almacenamiento.</p>`
+    },
+    {
+        id: "cp6",
+        title: "Consulta pública sobre el borrador de Real Decreto de regulación del hidrógeno renovable",
+        organismo: "MITECO",
+        fechaPublicacion: "2025-04-05",
+        fechaFin: "2025-06-05",
+        status: "upcoming",
+        summary: "Borrador de regulación específica para el hidrógeno renovable, incluyendo su conexión al sistema eléctrico, certificación de origen y requisitos de adicionalidad.",
+        detail: `<h3>Aspectos regulados</h3>
+<ul>
+<li>Definición de hidrógeno renovable conforme a la Directiva RED III</li>
+<li>Requisitos de adicionalidad para electrolizadores</li>
+<li>Condiciones de conexión de electrolizadores a la red eléctrica</li>
+<li>Sistema de certificación de garantías de origen</li>
+<li>Exenciones de peajes para electrolizadores con flexibilidad</li>
+</ul>
+<h3>Impacto para REE</h3>
+<p>Los electrolizadores de gran escala conectados a la red de transporte suponen una nueva tipología de consumidor flexible. REE debe definir los procedimientos de conexión y las condiciones de acceso.</p>`
+    },
+    {
+        id: "cp7",
+        title: "Consulta pública sobre Zonas de Aceleración de Energías Renovables",
+        organismo: "MITECO",
+        fechaPublicacion: "2024-12-15",
+        fechaFin: "2025-02-15",
+        status: "closed",
+        summary: "Identificación de zonas prioritarias para la instalación de renovables con procedimientos simplificados, conforme a la transposición de la Directiva RED III.",
+        detail: `<h3>Propuesta</h3>
+<ul>
+<li>Identificación de zonas de aceleración en suelo ya transformado</li>
+<li>Plazos de tramitación reducidos: 12 meses</li>
+<li>Evaluación ambiental simplificada</li>
+<li>Coordinación con planificación de redes de transporte y distribución</li>
+</ul>
+<h3>Resultado</h3>
+<p>Recibidas 156 alegaciones. El MITECO publicará la resolución definitiva junto con la designación oficial de zonas.</p>`
+    },
+    {
+        id: "cp8",
+        title: "Consulta sobre la propuesta de reforma del mercado mayorista de electricidad",
+        organismo: "CNMC",
+        fechaPublicacion: "2025-02-01",
+        fechaFin: "2025-04-01",
+        status: "closed",
+        summary: "Adaptación del marco regulatorio del mercado mayorista español a la reforma europea del diseño de mercado (Reglamento 2024/1747).",
+        detail: `<h3>Propuestas</h3>
+<ul>
+<li>Implementación de CfD bidireccionales para nuevas subastas</li>
+<li>Marco para PPAs: registro y acceso a garantías</li>
+<li>Mercado intradiario adaptado al acoplamiento europeo continuo</li>
+<li>Peak shaving product para gestión de picos de demanda</li>
+</ul>
+<h3>Resultado</h3>
+<p>Consulta cerrada. La CNMC está analizando las 83 alegaciones recibidas antes de publicar la propuesta definitiva.</p>`
+    }
+];
+
+const benchmarkData = {
+    acceso: {
+        title: "Acceso y Conexión a la Red",
+        description: "Comparativa de los regímenes de acceso y conexión a las redes eléctricas en Europa.",
+        columns: ["País", "Modelo de Acceso", "Plazos", "Garantías Económicas", "Capacidad Firme vs No Firme"],
+        rows: [
+            ["🇪🇸 España", "Permisos de acceso y conexión diferenciados. Procedimiento reglado con criterios técnicos y de capacidad. Concurrencia competitiva en nudos saturados.", "6-12 meses para transporte. Hasta 24 meses con EIA.", "Garantía de 40 €/kW para acceso a transporte. Ejecución por incumplimiento de hitos.", "Acceso firme por defecto. No existe acceso no firme en normativa actual. En debate la introducción de acceso flexible."],
+            ["🇫🇷 Francia", "Modelo de 'file d'attente' (cola de espera). RTE gestiona solicitudes por orden cronológico. Esquema S3REnR para renovables por regiones.", "3-18 meses según complejidad. Esquemas regionales más rápidos para renovables < 36 kV.", "Garantía del 10% del coste de conexión. Devolución parcial si desistimiento justificado.", "Acceso firme garantizado. Estudios piloto de acceso flexible (non-firm) en zonas congestionadas."],
+            ["🇩🇪 Alemania", "Obligación de conexión del TSO (connect and manage). El TSO debe ofrecer conexión y gestionar congestiones vía redespacho.", "'Connect and manage': conexión en plazos reducidos. Redespacho asumido por TSO.", "Sin garantía de acceso. Costes de conexión a cargo del generador. TSO asume costes de refuerzo de red.", "Sin restricción de acceso firme. Toda generación se conecta y los costes de congestión se socializan."],
+            ["🇮🇹 Italia", "Modelo de solicitud con estudio de viabilidad por Terna. Prioridad para renovables y almacenamiento.", "Plazos regulados: 90-120 días para estudio de viabilidad. Conexión efectiva variable.", "Garantía económica proporcional a la potencia solicitada. Devolución progresiva.", "Acceso firme con posibilidad de limitaciones temporales en zonas congestionadas."],
+            ["🇬🇧 Reino Unido", "Queue management reform (2024): nuevo sistema por madurez del proyecto en lugar de orden cronológico. 'Gate' process.", "Reforma para reducir de 10-15 años a 5-7 años. Nuevos gates eliminan proyectos especulativos.", "Application fees + garantías de progreso. Pérdida de posición en cola por incumplimiento.", "Acceso firme y no firme disponible. Non-firm access ofrece conexión más rápida con limitaciones."],
+            ["🇵🇹 Portugal", "Sistema coordinado con REN. Concursos para capacidad en nudos con alta demanda de renovables.", "6-12 meses. Procedimiento simplificado para < 1 MW.", "Garantía bancaria proporcional. Sistema de caución para concursos.", "Acceso firme. Permisos vinculados a hitos de construcción."],
+            ["🇳🇱 Países Bajos", "Modelo 'first come first served' con prioridad para demanda. Lista de espera gestionada por TenneT.", "Crisis de capacidad: colas de 5-7 años en algunas regiones. Reformas urgentes en curso.", "Sin garantías iniciales. Costes de conexión a cargo del usuario.", "Debate activo sobre non-firm connections y cable pooling para desbloquear la cola."]
+        ]
+    },
+    retribucion: {
+        title: "Retribución de Redes de Transporte",
+        description: "Comparativa de los modelos retributivos de la actividad de transporte en Europa.",
+        columns: ["País", "Modelo Retributivo", "Tasa de Retribución", "Período Regulatorio", "Incentivos"],
+        rows: [
+            ["🇪🇸 España", "Revenue cap basado en costes reconocidos de inversión y O&M. Retribución por activo individual.", "Tasa de retribución financiera del ~5,5% (antes de impuestos). En revisión para 2026-2031.", "6 años con revisión intermedia a los 3 años.", "Incentivos de disponibilidad, calidad de servicio y reducción de pérdidas."],
+            ["🇫🇷 Francia", "Revenue cap (TURPE). Trayectoria de costes aprobada por CRE para cada período.", "WACC regulatorio ~4,5% real antes de impuestos (período TURPE 7).", "4 años (TURPE 7: 2025-2028).", "Incentivos de calidad (CRIT), eficiencia energética e innovación."],
+            ["🇩🇪 Alemania", "Revenue cap con benchmarking de eficiencia (sistema de 'Anreizregulierung').", "WACC ~4,1% antes de impuestos. BNetzA lo revisa cada período.", "5 años (4º período regulatorio 2024-2028).", "Incentivos de eficiencia con factor X progresivo. Investment budgets para grandes proyectos."],
+            ["🇮🇹 Italia", "RAB-based con parametric OPEX. ARERA define inversiones prioritarias con retribución premium.", "WACC ~5,2% antes de impuestos. Premio de 200 bps para inversiones prioritarias.", "8 años para framework, 4 años para parámetros.", "Output-based incentives: calidad, resiliencia, innovación, interconexiones."],
+            ["🇬🇧 Reino Unido", "RIIO-T2 (Revenue = Incentives + Innovation + Outputs). Totex approach.", "WACC ~3,5-4% real. Uno de los más bajos de Europa.", "5 años (RIIO-T2: 2021-2026). RIIO-T3 en preparación.", "Incentivos por outputs: disponibilidad, medio ambiente, satisfacción de stakeholders, innovación."],
+            ["🇵🇹 Portugal", "Revenue cap similar al español. ERSE como regulador.", "~6% antes de impuestos. Uno de los más altos.", "3 años renovables.", "Incentivos de calidad y pérdidas."],
+            ["🇳🇱 Países Bajos", "Revenue cap con benchmarking estricto de ACM.", "~3,8% antes de impuestos (real). Actualización anual.", "3-5 años según método.", "Incentivos de calidad y eficiencia. Presión para inversión rápida por crisis de capacidad."]
+        ]
+    },
+    renovables: {
+        title: "Mecanismos de Apoyo a Renovables",
+        description: "Comparativa de los sistemas de apoyo a la generación renovable en Europa.",
+        columns: ["País", "Mecanismo Principal", "Tecnologías", "Volumen Instalado (2024)", "Objetivos 2030"],
+        rows: [
+            ["🇪🇸 España", "Subastas REER con CfD. PPAs de mercado en auge.", "Eólica, solar FV, termosolar, biomasa", "~45 GW eólica + FV", "62 GW eólica, 76 GW solar FV"],
+            ["🇫🇷 Francia", "CfD vía subastas (CRE). Tarifa regulada para < 500 kW.", "Eólica, solar, offshore, biogás", "~48 GW renovables", "100 GW solar, 40 GW eólica onshore, 18 GW offshore"],
+            ["🇩🇪 Alemania", "Subastas EEG con sliding premium. Contratos por diferencias.", "Eólica on/offshore, solar, biomasa", "~82 GW eólica + solar", "215 GW solar, 115 GW eólica (2030)"],
+            ["🇮🇹 Italia", "Subastas GSE con CfD (DM FER). Incentivos para autoconsumo.", "Solar, eólica, bioenergía, geotérmica", "~35 GW renovables", "70 GW renovables (PNIEC actualizado)"],
+            ["🇬🇧 Reino Unido", "CfD via Allocation Rounds (AR). AR6 en 2024.", "Offshore wind, solar, onshore wind", "~55 GW renovables", "50 GW offshore wind, 70 GW solar"],
+            ["🇵🇹 Portugal", "Subastas con CfD. Subastas de almacenamiento asociado.", "Solar FV, eólica, offshore (futuro)", "~12 GW renovables", "20,4 GW renovables"],
+            ["🇳🇱 Países Bajos", "SDE++ subsidy con envelope presupuestario anual.", "Offshore wind, solar, geotérmica", "~25 GW renovables", "21 GW offshore wind, 35 GW solar"]
+        ]
+    },
+    mercado: {
+        title: "Diseño del Mercado Eléctrico",
+        description: "Comparativa de los diseños de mercado mayorista en Europa.",
+        columns: ["País", "Modelo de Mercado", "Mercado Intradiario", "Mecanismo de Capacidad", "Integración Europea"],
+        rows: [
+            ["🇪🇸 España", "Pool obligatorio marginalista. OMIE como NEMO. Mercado diario y 6 sesiones intradiarias + continuo.", "Sesiones intradiarias (subasta) + mercado continuo XBID.", "Sin mecanismo de capacidad formal. Pagos por capacidad históricos eliminados.", "SDAC/SIDC. CCR SWE con Francia y Portugal. Interconexión limitada (~5% pico)."],
+            ["🇫🇷 Francia", "Pool voluntario (EPEX SPOT). Contratos bilaterales significativos.", "XBID continuo + subastas intradiarias regionales.", "Mecanismo de capacidad descentralizado: obligaciones de capacidad certificada.", "SDAC/SIDC. CCR CORE + SWE. Exportador neto habitual."],
+            ["🇩🇪 Alemania", "EPEX SPOT (day-ahead) + XBID. Mercado bilateral activo.", "XBID continuo con gate closure 5 min antes de delivery.", "Reserva estratégica (Kapazitätsreserve) fuera de mercado.", "SDAC/SIDC. CCR CORE. Flow-based market coupling."],
+            ["🇮🇹 Italia", "GME como NEMO. Mercado zonal (6+1 zonas). Mercado de servicios de despacho.", "MI continuo + subastas zonales.", "Mecanismo de capacidad centralizado con subastas de confiabilidad.", "SDAC/SIDC. CCR Italy North + GRIT. Coupling con Grecia y otros."],
+            ["🇬🇧 Reino Unido", "EPEX SPOT + N2EX. Post-Brexit fuera del SDAC.", "Continuo bilateral. Sin acoplamiento europeo desde Brexit.", "Capacity Market con subastas T-4 y T-1.", "Trade and Cooperation Agreement. Sin market coupling. OFGEM evaluando reconexión."],
+            ["🇵🇹 Portugal", "OMIE (mismo NEMO que España). Mercado ibérico integrado (MIBEL).", "Sesiones intradiarias + continuo XBID.", "Sin mecanismo formal. Participación en el MIBEL.", "SDAC/SIDC vía MIBEL. CCR SWE."],
+            ["🇳🇱 Países Bajos", "EPEX SPOT. Uno de los mercados más líquidos de Europa.", "XBID continuo. Alta liquidez intradiaria.", "Sin mecanismo de capacidad formal.", "SDAC/SIDC. CCR CORE. Flow-based desde 2015."]
+        ]
+    },
+    almacenamiento: {
+        title: "Regulación del Almacenamiento Energético",
+        description: "Comparativa de marcos regulatorios para almacenamiento de energía en Europa.",
+        columns: ["País", "Marco Regulatorio", "Propiedad TSO/DSO", "Acceso a Mercados", "Objetivos/Capacidad"],
+        rows: [
+            ["🇪🇸 España", "RD de almacenamiento (2024). Actividad diferenciada. Hibridación permitida.", "TSO/DSO en casos excepcionales previa licitación sin interés de mercado.", "Participación en mercados mayoristas y de balance. Doble rol generación/demanda.", "Objetivo: 20 GW en 2030. ~2 GW instalados (bombeo + baterías)."],
+            ["🇫🇷 Francia", "Sin ley específica. Regulado como generación/consumo. Bac à sable réglementaire para pilotos.", "RTE puede operar almacenamiento para servicios de red con autorización CRE.", "Participación en mercados mayoristas, balance y servicios auxiliares.", "7 GW de baterías objetivo 2030. 5 GW de bombeo existente."],
+            ["🇩🇪 Alemania", "EnWG reformada. Almacenamiento como categoría propia desde 2023.", "TSO puede poseer almacenamiento para congestiones. Separación estricta.", "Acceso a mercados spot, balance e intradiario. Revenue stacking permitido.", "Sin objetivo formal. ~5 GW de baterías a gran escala proyectados."],
+            ["🇮🇹 Italia", "TIAD: Texto Integrado de Almacenamiento (ARERA). Marco completo.", "Terna opera almacenamiento centralizado (sistema BESS). ARERA supervisa.", "Mercado mayorista + servicios de despacho (MSD). Pilotos de agregación.", "Terna: 71 MW de BESS operativo. Objetivo de 9 GW en 2030."],
+            ["🇬🇧 Reino Unido", "Pionero en almacenamiento. Clasificado como generación. Cap and floor para LDES.", "Prohibición estricta de propiedad por redes (network operators).", "Acceso a todos los mercados: wholesale, balancing, capacity market, ancillary services.", "Líder europeo: ~4 GW de baterías operativas. Objetivo 12 GW en 2030."],
+            ["🇵🇹 Portugal", "Marco en desarrollo. Subastas de almacenamiento asociado a solar.", "En evaluación. REN sin autorización actual.", "Participación limitada en MIBEL y servicios de balance.", "1,5 GW en subastas de almacenamiento solar+baterías."],
+            ["🇳🇱 Países Bajos", "Sin marco específico completo. Almacenamiento como asset de mercado.", "TenneT no puede poseer almacenamiento.", "Revenue stacking en mercados spot e intradiario. Servicios FCR.", "~1 GW de baterías proyectado. Foco en flexibilidad industrial."]
+        ]
+    },
+    hidrogeno: {
+        title: "Regulación del Hidrógeno Verde",
+        description: "Comparativa de marcos regulatorios para hidrógeno renovable en Europa.",
+        columns: ["País", "Marco Regulatorio", "Requisitos de Adicionalidad", "Conexión a Red Eléctrica", "Objetivos"],
+        rows: [
+            ["🇪🇸 España", "Hoja de ruta del H2 renovable. RD en consulta pública (2025). Corredor H2Med.", "Adaptación al Acto Delegado UE. Criterios de adicionalidad, correlación temporal y geográfica.", "Electrolizadores como consumidores cualificados. Exención parcial de peajes por flexibilidad.", "4 GW electrólisis en 2030. Valle del H2 en Navarra, Asturias, Huelva."],
+            ["🇫🇷 Francia", "Stratégie Nationale Hydrogène. 9.000 M€ de inversión pública. France 2030.", "Cumplimiento del Acto Delegado UE. Nuclear incluido como bajo en carbono (no renovable).", "Tarificación especial para electrolizadores flexibles. Pilotos con RTE.", "6,5 GW electrólisis en 2030. Foco en industria y movilidad pesada."],
+            ["🇩🇪 Alemania", "Nationale Wasserstoffstrategie actualizada (2023). H2-Beschleunigungsgesetz.", "Diferenciación entre H2 verde (renovable) y H2 azul (con CCUS). Cumplimiento EU DA.", "Regulación específica de electroductos (H2-Netz). Integración sector eléctrico-H2.", "10 GW electrólisis en 2030. Mayor ambición de Europa. H2 backbone de 9.700 km."],
+            ["🇮🇹 Italia", "PNRR: 3.640 M€ para H2 verde. Hydrogen valleys. SNAM como operador de red H2.", "Alineación con Acto Delegado UE. Idonea renovable para certificación.", "Conexión a red eléctrica según normativa general. Tarifas incentivadas en estudio.", "5 GW electrólisis en 2030. Hydrogen valleys en Puglia y Sicilia."],
+            ["🇬🇧 Reino Unido", "UK Hydrogen Strategy. H2 Business Model: CfD para producción. HAR1 y HAR2 completados.", "Low Carbon Hydrogen Standard propio (no EU DA). Incluye nuclear y CCUS.", "Grid connection estándar. DESNZ evaluando tarifas diferenciadas.", "10 GW producción (5 GW electrólisis + 5 GW CCUS) en 2030."],
+            ["🇵🇹 Portugal", "EN-H2: Estratégia Nacional para o Hidrogénio. Hub de Sines.", "Alineación con Acto Delegado UE. Foco en solar-to-H2.", "Condiciones especiales de conexión para electrolizadores en Sines.", "2,5 GW electrólisis en 2030. Hub de exportación a Europa."],
+            ["🇳🇱 Países Bajos", "Nationale Waterstofstrategie. Puerto de Rotterdam como hub europeo. HyTransPort.", "Cumplimiento EU DA. Offshore wind-to-H2 como prioridad.", "TenneT: conexión offshore directa para electrolizadores. Piloto en Hollandse Kust.", "3-4 GW electrólisis en 2030. Red troncal H2 por Gasunie (1.600 km)."]
+        ]
+    }
+};
+
+// ===================================================================
+// APPLICATION LOGIC
+// ===================================================================
+
+// --- Tab navigation ---
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+});
+
+// --- Modal ---
+function openModal(title, meta, body) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-meta').innerHTML = meta;
+    document.getElementById('modal-body').innerHTML = body;
+    document.getElementById('modal-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// --- Render helpers ---
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function getTagClass(tag) {
+    const map = { 'new': 'tag-new', 'modified': 'tag-modified', 'eu': 'tag-eu', 'open': 'tag-open', 'closed': 'tag-closed', 'upcoming': 'tag-upcoming' };
+    return map[tag] || 'tag-new';
+}
+function getStatusLabel(s) {
+    return { open: 'Abierta', closed: 'Cerrada', upcoming: 'Próxima' }[s] || s;
+}
+function daysRemaining(dateStr) {
+    const d = new Date(dateStr);
+    const today = new Date();
+    const diff = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
+    if (diff < 0) return 'Finalizada';
+    if (diff === 0) return 'Último día';
+    return diff + ' días restantes';
+}
+
+// --- Normativa Nacional ---
+function renderNormativaNacional(filter, search) {
+    const grid = document.getElementById('grid-nacional');
+    const noResults = document.getElementById('no-results-nacional');
+    const cambios = document.getElementById('cambios-recientes-nacional');
+    const query = (search || '').toLowerCase();
+    let filtered = normativaNacional.filter(n => {
+        if (filter && filter !== 'todos' && n.type !== filter) return false;
+        if (query && !n.title.toLowerCase().includes(query) && !n.summary.toLowerCase().includes(query) && !(n.impactoREE && n.impactoREE.toLowerCase().includes(query))) return false;
+        return true;
+    });
+    // Stats
+    document.getElementById('stat-total-nacional').textContent = normativaNacional.length;
+    document.getElementById('stat-cambios-nacional').textContent = normativaNacional.filter(n => n.updated || n.tag === 'new').length;
+    document.getElementById('stat-afecciones').textContent = normativaNacional.filter(n => n.impactoREE).length;
+
+    // Recent changes
+    const recent = filtered.filter(n => n.updated || n.tag === 'new').sort((a, b) => new Date(b.updated || b.date) - new Date(a.updated || a.date)).slice(0, 4);
+    cambios.innerHTML = recent.map(n => `
+        <div class="timeline-item" onclick="showNormaDetail('nacional', '${n.id}')">
+            <div class="timeline-date">
+                <div class="day">${new Date(n.updated || n.date).getDate()}</div>
+                <div class="month">${new Date(n.updated || n.date).toLocaleDateString('es-ES', {month:'short'})}</div>
+            </div>
+            <div class="timeline-body">
+                <div class="title">${n.title.length > 90 ? n.title.substring(0,90) + '...' : n.title}</div>
+                <div class="desc">${n.impactoREE ? n.impactoREE.substring(0, 150) + '...' : n.summary.substring(0,150) + '...'}</div>
+            </div>
+        </div>
+    `).join('');
+
+    // Grid
+    grid.innerHTML = filtered.map(n => `
+        <div class="card" onclick="showNormaDetail('nacional', '${n.id}')">
+            <div class="card-header">
+                <span class="card-tag ${getTagClass(n.tag)}">${n.tagLabel}</span>
+            </div>
+            <div class="card-title">${n.title}</div>
+            <div class="card-meta">
+                <span>📅 ${formatDate(n.date)}</span>
+                ${n.updated ? '<span>🔄 Act: ' + formatDate(n.updated) + '</span>' : ''}
+            </div>
+            <div class="card-summary">${n.summary.substring(0, 160)}...</div>
+        </div>
+    `).join('');
+
+    noResults.classList.toggle('hidden', filtered.length > 0);
+}
+
+window.showNormaDetail = function(type, id) {
+    const list = type === 'nacional' ? normativaNacional : normativaEuropea;
+    const n = list.find(x => x.id === id);
+    if (!n) return;
+    const meta = `
+        <span>📅 Publicación: ${formatDate(n.date)}</span>
+        ${n.updated ? '<span>🔄 Última actualización: ' + formatDate(n.updated) + '</span>' : ''}
+        <span>📂 Tipo: ${n.type.toUpperCase()}</span>
+    `;
+    let body = n.detail || '';
+    if (n.impactoREE && !body.includes('Afecciones')) {
+        body = `<h3>Resumen</h3><p>${n.summary}</p><h3>Afecciones para Red Eléctrica</h3><p>${n.impactoREE}</p>` + body;
+    }
+    openModal(n.title, meta, body);
+};
+
+// --- Normativa Europea ---
+function renderNormativaEuropea(filter, search) {
+    const grid = document.getElementById('grid-europea');
+    const noResults = document.getElementById('no-results-europea');
+    const cambios = document.getElementById('cambios-recientes-europea');
+    const query = (search || '').toLowerCase();
+    let filtered = normativaEuropea.filter(n => {
+        if (filter && filter !== 'todos' && n.type !== filter) return false;
+        if (query && !n.title.toLowerCase().includes(query) && !n.summary.toLowerCase().includes(query) && !(n.impactoREE && n.impactoREE.toLowerCase().includes(query))) return false;
+        return true;
+    });
+    document.getElementById('stat-total-europea').textContent = normativaEuropea.length;
+    document.getElementById('stat-cambios-europea').textContent = normativaEuropea.filter(n => n.updated || n.tag === 'new').length;
+
+    const recent = filtered.filter(n => n.updated || n.tag === 'new').sort((a, b) => new Date(b.updated || b.date) - new Date(a.updated || a.date)).slice(0, 4);
+    cambios.innerHTML = recent.map(n => `
+        <div class="timeline-item" onclick="showNormaDetail('europea', '${n.id}')">
+            <div class="timeline-date">
+                <div class="day">${new Date(n.updated || n.date).getDate()}</div>
+                <div class="month">${new Date(n.updated || n.date).toLocaleDateString('es-ES', {month:'short'})}</div>
+            </div>
+            <div class="timeline-body">
+                <div class="title">${n.title.length > 90 ? n.title.substring(0,90) + '...' : n.title}</div>
+                <div class="desc">${n.impactoREE ? n.impactoREE.substring(0, 150) + '...' : n.summary.substring(0,150) + '...'}</div>
+            </div>
+        </div>
+    `).join('');
+
+    grid.innerHTML = filtered.map(n => `
+        <div class="card" onclick="showNormaDetail('europea', '${n.id}')">
+            <div class="card-header">
+                <span class="card-tag ${getTagClass(n.tag)}">${n.tagLabel}</span>
+            </div>
+            <div class="card-title">${n.title}</div>
+            <div class="card-meta">
+                <span>📅 ${formatDate(n.date)}</span>
+                ${n.updated ? '<span>🔄 Act: ' + formatDate(n.updated) + '</span>' : ''}
+            </div>
+            <div class="card-summary">${n.summary.substring(0, 160)}...</div>
+        </div>
+    `).join('');
+
+    noResults.classList.toggle('hidden', filtered.length > 0);
+}
+
+// --- Consultas Públicas ---
+function renderConsultas(filter, search) {
+    const grid = document.getElementById('grid-consultas');
+    const noResults = document.getElementById('no-results-consultas');
+    const query = (search || '').toLowerCase();
+    let filtered = consultasPublicas.filter(c => {
+        if (filter && filter !== 'todos' && c.status !== filter) return false;
+        if (query && !c.title.toLowerCase().includes(query) && !c.summary.toLowerCase().includes(query) && !c.organismo.toLowerCase().includes(query)) return false;
+        return true;
+    });
+    document.getElementById('stat-open').textContent = consultasPublicas.filter(c => c.status === 'open').length;
+    document.getElementById('stat-upcoming').textContent = consultasPublicas.filter(c => c.status === 'upcoming').length;
+    document.getElementById('stat-closed').textContent = consultasPublicas.filter(c => c.status === 'closed').length;
+
+    grid.innerHTML = filtered.map(c => {
+        const remaining = daysRemaining(c.fechaFin);
+        const fillClass = c.status === 'open' ? 'fill-open' : c.status === 'closed' ? 'fill-closed' : 'fill-upcoming';
+        let fillWidth = '100%';
+        if (c.status === 'open') {
+            const total = (new Date(c.fechaFin) - new Date(c.fechaPublicacion));
+            const elapsed = (new Date() - new Date(c.fechaPublicacion));
+            fillWidth = Math.min(100, Math.max(5, (elapsed / total) * 100)).toFixed(0) + '%';
+        } else if (c.status === 'upcoming') {
+            fillWidth = '10%';
+        }
+        return `
+        <div class="card" onclick="showConsultaDetail('${c.id}')">
+            <div class="card-header">
+                <span class="card-tag ${c.status === 'open' ? 'tag-open' : c.status === 'closed' ? 'tag-closed' : 'tag-upcoming'}">${getStatusLabel(c.status)}</span>
+            </div>
+            <div class="card-title">${c.title}</div>
+            <div class="card-meta">
+                <span>🏛️ ${c.organismo}</span>
+                <span>📅 ${formatDate(c.fechaPublicacion)}</span>
+                <span>⏰ ${remaining}</span>
+            </div>
+            <div class="card-summary">${c.summary.substring(0, 140)}...</div>
+            <div class="status-bar"><div class="fill ${fillClass}" style="width:${fillWidth}"></div></div>
+        </div>`;
+    }).join('');
+
+    noResults.classList.toggle('hidden', filtered.length > 0);
+}
+
+window.showConsultaDetail = function(id) {
+    const c = consultasPublicas.find(x => x.id === id);
+    if (!c) return;
+    const remaining = daysRemaining(c.fechaFin);
+    const meta = `
+        <span>🏛️ ${c.organismo}</span>
+        <span>📅 Publicación: ${formatDate(c.fechaPublicacion)}</span>
+        <span>⏰ Plazo: ${formatDate(c.fechaFin)} (${remaining})</span>
+        <span class="card-tag ${c.status === 'open' ? 'tag-open' : c.status === 'closed' ? 'tag-closed' : 'tag-upcoming'}" style="margin-left:0">${getStatusLabel(c.status)}</span>
+    `;
+    openModal(c.title, meta, c.detail);
+};
+
+// --- Benchmark ---
+function renderBenchmark(topic) {
+    const data = benchmarkData[topic];
+    if (!data) return;
+    const container = document.getElementById('benchmark-content');
+    let html = `<p style="color:#555;margin-bottom:16px;font-size:14px;">${data.description}</p>`;
+    html += '<table class="benchmark-table"><thead><tr>';
+    data.columns.forEach(col => { html += `<th>${col}</th>`; });
+    html += '</tr></thead><tbody>';
+    data.rows.forEach(row => {
+        html += '<tr>';
+        row.forEach((cell, i) => {
+            html += `<td${i === 0 ? ' class="country-cell"' : ''}>${cell}</td>`;
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+// --- Filter pills ---
+function setupFilters(containerId, callback) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            container.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            callback(pill.dataset.filter);
+        });
+    });
+}
+
+// --- Topic selector ---
+document.querySelectorAll('.topic-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderBenchmark(btn.dataset.topic);
+    });
+});
+
+// --- Search handlers ---
+let nacionalFilter = 'todos', europeaFilter = 'todos', consultasFilter = 'todos';
+setupFilters('filters-nacional', f => { nacionalFilter = f; renderNormativaNacional(f, document.getElementById('search-nacional').value); });
+setupFilters('filters-europea', f => { europeaFilter = f; renderNormativaEuropea(f, document.getElementById('search-europea').value); });
+setupFilters('filters-consultas', f => { consultasFilter = f; renderConsultas(f, document.getElementById('search-consultas').value); });
+
+document.getElementById('search-nacional').addEventListener('input', e => renderNormativaNacional(nacionalFilter, e.target.value));
+document.getElementById('search-europea').addEventListener('input', e => renderNormativaEuropea(europeaFilter, e.target.value));
+document.getElementById('search-consultas').addEventListener('input', e => renderConsultas(consultasFilter, e.target.value));
+
+// --- Initial render ---
+renderNormativaNacional('todos', '');
+renderNormativaEuropea('todos', '');
+renderConsultas('todos', '');
+renderBenchmark('acceso');
+
+</script>
+</body>
+</html>
