@@ -410,6 +410,143 @@
         ::-webkit-scrollbar-thumb:hover { background: #aaa; }
 
         .hidden { display: none !important; }
+
+        /* ===== LIVE SEARCH BUTTON ===== */
+        .header-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+        .btn-live-search {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            white-space: nowrap;
+        }
+        .btn-live-search:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(233,69,96,0.4); }
+        .btn-live-search:active { transform: scale(0.97); }
+        .btn-live-search.loading { opacity: 0.7; pointer-events: none; }
+        .btn-live-search .spinner {
+            display: none; width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-live-search.loading .spinner { display: inline-block; }
+        .btn-live-search.loading .btn-icon { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== LIVE RESULTS PANEL ===== */
+        .live-panel-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 300;
+            justify-content: center; align-items: flex-start;
+            padding: 60px 24px 24px;
+            overflow-y: auto;
+        }
+        .live-panel-overlay.active { display: flex; }
+        .live-panel {
+            background: white; border-radius: 16px;
+            max-width: 900px; width: 100%;
+            max-height: 85vh; overflow-y: auto;
+            padding: 0; position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+        .live-panel-header {
+            position: sticky; top: 0; z-index: 2;
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white; padding: 20px 28px;
+            border-radius: 16px 16px 0 0;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .live-panel-header h2 { font-size: 18px; display: flex; align-items: center; gap: 10px; }
+        .live-panel-close {
+            background: rgba(255,255,255,0.15); border: none;
+            width: 32px; height: 32px; border-radius: 50%;
+            color: white; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .live-panel-close:hover { background: rgba(255,255,255,0.3); }
+        .live-panel-body { padding: 20px 28px 28px; }
+
+        .live-source-tabs {
+            display: flex; gap: 6px; margin-bottom: 16px;
+            border-bottom: 2px solid #eee; padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .live-source-tab {
+            padding: 6px 14px; border-radius: 6px;
+            border: 1px solid #ddd; background: white;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .live-source-tab:hover { border-color: #e94560; color: #e94560; }
+        .live-source-tab.active { background: #e94560; color: white; border-color: #e94560; }
+        .live-source-count {
+            display: inline-block; background: rgba(0,0,0,0.1);
+            padding: 1px 6px; border-radius: 10px; font-size: 11px; margin-left: 4px;
+        }
+        .live-source-tab.active .live-source-count { background: rgba(255,255,255,0.3); }
+
+        .live-result-item {
+            display: flex; gap: 14px; padding: 14px 16px;
+            border: 1px solid #eee; border-radius: 10px;
+            margin-bottom: 10px; transition: background 0.15s, border-color 0.15s;
+            cursor: pointer;
+        }
+        .live-result-item:hover { background: #f8f9ff; border-color: #d0d0ff; }
+        .live-result-date {
+            min-width: 52px; text-align: center; flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .live-result-date .day { font-size: 20px; font-weight: 800; color: #e94560; line-height: 1; }
+        .live-result-date .month { font-size: 11px; color: #888; text-transform: uppercase; }
+        .live-result-date .year { font-size: 11px; color: #aaa; }
+        .live-result-body { flex: 1; min-width: 0; }
+        .live-result-body .title { font-size: 13px; font-weight: 700; color: #1a1a2e; line-height: 1.4; margin-bottom: 4px; }
+        .live-result-body .source-badge {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            padding: 2px 8px; border-radius: 4px; margin-right: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .badge-boe { background: #e8f5e9; color: #2e7d32; }
+        .badge-cnmc { background: #e3f2fd; color: #1565c0; }
+        .badge-eurlex { background: #ede7f6; color: #4527a0; }
+        .badge-miteco { background: #fff3e0; color: #e65100; }
+        .live-result-body .desc { font-size: 12px; color: #666; line-height: 1.4; margin-top: 4px; }
+        .live-result-link {
+            font-size: 11px; color: #e94560; text-decoration: none;
+            font-weight: 600; margin-top: 4px; display: inline-block;
+        }
+        .live-result-link:hover { text-decoration: underline; }
+
+        .live-status {
+            text-align: center; padding: 32px; color: #888; font-size: 14px;
+        }
+        .live-status .icon { font-size: 40px; margin-bottom: 8px; }
+        .live-status .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+        .live-search-input {
+            width: 100%; padding: 10px 16px 10px 40px;
+            border: 1px solid #e0e0e0; border-radius: 8px;
+            font-size: 13px; margin-bottom: 12px;
+            background: #fafafa;
+        }
+        .live-search-input:focus { outline: none; border-color: #e94560; background: white; }
+        .live-search-wrap { position: relative; }
+        .live-search-wrap .ico { position: absolute; left: 14px; top: 11px; font-size: 15px; color: #999; }
+
+        .live-timestamp {
+            font-size: 11px; color: #aaa; text-align: right;
+            padding: 8px 0 0; border-top: 1px solid #f0f0f0; margin-top: 12px;
+        }
     </style>
 </head>
 <body>
@@ -420,6 +557,32 @@
     <div class="header-text">
         <h1>Agente Regulatorio Eléctrico</h1>
         <p>Monitorización normativa del sector eléctrico — España y Europa</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn-live-search" id="btn-live-search" onclick="liveSearch()">
+            <span class="spinner"></span>
+            <span class="btn-icon">🔄</span>
+            Buscar nuevas regulaciones
+        </button>
+    </div>
+</div>
+
+<!-- ===== LIVE SEARCH PANEL ===== -->
+<div class="live-panel-overlay" id="live-panel-overlay">
+    <div class="live-panel">
+        <div class="live-panel-header">
+            <h2>📡 Últimas regulaciones encontradas</h2>
+            <button class="live-panel-close" onclick="closeLivePanel()">✕</button>
+        </div>
+        <div class="live-panel-body">
+            <div class="live-search-wrap">
+                <span class="ico">🔍</span>
+                <input type="text" class="live-search-input" id="live-filter" placeholder="Filtrar resultados..." oninput="filterLiveResults()">
+            </div>
+            <div class="live-source-tabs" id="live-source-tabs"></div>
+            <div id="live-results-container"></div>
+            <div class="live-timestamp" id="live-timestamp"></div>
+        </div>
     </div>
 </div>
 
@@ -1929,6 +2092,240 @@ renderNormativaNacional('todos', '');
 renderNormativaEuropea('todos', '');
 renderConsultas('todos', '');
 renderBenchmark('acceso');
+
+// ===================================================================
+// LIVE SEARCH — Fetch from BOE, CNMC, EUR-Lex
+// ===================================================================
+
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+const FEEDS = [
+    {
+        id: 'boe-i',
+        name: 'BOE Sec. I',
+        badge: 'badge-boe',
+        label: 'BOE',
+        url: 'https://www.boe.es/rss/boe.php?s=1',
+        keywords: ['electr', 'energ', 'renovab', 'eléctric', 'transporte de energía', 'transición ecológ', 'sector eléctric', 'autoconsumo', 'almacenamiento', 'peaje', 'cnmc', 'generación', 'distribución eléctric', 'suministro eléctric', 'red de transporte', 'tensión', 'fotovoltaic', 'eólic']
+    },
+    {
+        id: 'boe-iii',
+        name: 'BOE Sec. III',
+        badge: 'badge-boe',
+        label: 'BOE',
+        url: 'https://www.boe.es/rss/boe.php?s=3',
+        keywords: ['electr', 'energ', 'renovab', 'eléctric', 'peaje', 'cnmc', 'tarif', 'retribución', 'transporte de energía', 'suministro eléctric', 'almacenamiento', 'fotovoltaic', 'eólic']
+    },
+    {
+        id: 'cnmc',
+        name: 'CNMC',
+        badge: 'badge-cnmc',
+        label: 'CNMC',
+        url: 'https://www.cnmc.es/rss/prensa',
+        keywords: ['electr', 'energ', 'eléctric', 'peaje', 'retribución', 'transporte', 'distribución', 'circular', 'mercado eléctric', 'renovab', 'almacenamiento', 'balance', 'tensión', 'operación del sistema']
+    },
+    {
+        id: 'eurlex',
+        name: 'EUR-Lex',
+        badge: 'badge-eurlex',
+        label: 'EUR-Lex',
+        url: 'https://eur-lex.europa.eu/EN/display-feed.html?rssId=30&language=es',
+        keywords: ['electr', 'energ', 'electricity', 'energy', 'renovab', 'renewable', 'grid', 'network code', 'código de red', 'mercado interior', 'internal market', 'emisiones', 'emission', 'carbon', 'carbono']
+    }
+];
+
+let allLiveResults = [];
+let activeLiveSource = 'todos';
+
+function parseRSSDate(dateStr) {
+    try {
+        const d = new Date(dateStr);
+        return isNaN(d.getTime()) ? new Date() : d;
+    } catch { return new Date(); }
+}
+
+function matchesKeywords(text, keywords) {
+    const lower = text.toLowerCase();
+    return keywords.some(kw => lower.includes(kw));
+}
+
+function parseRSS(xmlText, feed) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlText, 'text/xml');
+    const items = doc.querySelectorAll('item');
+    const results = [];
+    items.forEach(item => {
+        const title = item.querySelector('title')?.textContent || '';
+        const description = item.querySelector('description')?.textContent || '';
+        const link = item.querySelector('link')?.textContent || '';
+        const pubDate = item.querySelector('pubDate')?.textContent || '';
+        const combined = title + ' ' + description;
+        if (matchesKeywords(combined, feed.keywords)) {
+            const date = parseRSSDate(pubDate);
+            results.push({
+                title: title.replace(/<[^>]*>/g, '').trim(),
+                description: description.replace(/<[^>]*>/g, '').substring(0, 250).trim(),
+                link: link.trim(),
+                date,
+                source: feed.id,
+                sourceName: feed.name,
+                badge: feed.badge,
+                label: feed.label
+            });
+        }
+    });
+    return results;
+}
+
+function parseAtom(xmlText, feed) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlText, 'text/xml');
+    const entries = doc.querySelectorAll('entry');
+    const results = [];
+    entries.forEach(entry => {
+        const title = entry.querySelector('title')?.textContent || '';
+        const summary = entry.querySelector('summary')?.textContent || entry.querySelector('content')?.textContent || '';
+        const linkEl = entry.querySelector('link[href]');
+        const link = linkEl ? linkEl.getAttribute('href') : '';
+        const updated = entry.querySelector('updated')?.textContent || entry.querySelector('published')?.textContent || '';
+        const combined = title + ' ' + summary;
+        if (matchesKeywords(combined, feed.keywords)) {
+            const date = parseRSSDate(updated);
+            results.push({
+                title: title.replace(/<[^>]*>/g, '').trim(),
+                description: summary.replace(/<[^>]*>/g, '').substring(0, 250).trim(),
+                link: link.trim(),
+                date,
+                source: feed.id,
+                sourceName: feed.name,
+                badge: feed.badge,
+                label: feed.label
+            });
+        }
+    });
+    return results;
+}
+
+async function fetchFeed(feed) {
+    try {
+        const url = CORS_PROXY + encodeURIComponent(feed.url);
+        const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+        if (!resp.ok) throw new Error(resp.status);
+        const text = await resp.text();
+        // Try RSS first, then Atom
+        if (text.includes('<entry')) {
+            return parseAtom(text, feed);
+        }
+        return parseRSS(text, feed);
+    } catch (err) {
+        console.warn(`Feed ${feed.name} failed:`, err.message);
+        return [];
+    }
+}
+
+async function liveSearch() {
+    const btn = document.getElementById('btn-live-search');
+    btn.classList.add('loading');
+
+    const container = document.getElementById('live-results-container');
+    container.innerHTML = '<div class="live-status"><div class="icon">📡</div><p>Buscando en BOE, CNMC y EUR-Lex...</p><div class="sub">Consultando fuentes oficiales en tiempo real</div></div>';
+
+    // Open panel
+    document.getElementById('live-panel-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('live-filter').value = '';
+
+    // Fetch all feeds in parallel
+    const feedPromises = FEEDS.map(f => fetchFeed(f));
+    const results = await Promise.all(feedPromises);
+    allLiveResults = results.flat().sort((a, b) => b.date - a.date);
+
+    // Deduplicate by similar title
+    const seen = new Set();
+    allLiveResults = allLiveResults.filter(r => {
+        const key = r.title.substring(0, 60).toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
+
+    btn.classList.remove('loading');
+    activeLiveSource = 'todos';
+    renderLiveSourceTabs();
+    renderLiveResults();
+    document.getElementById('live-timestamp').textContent = 'Última búsqueda: ' + new Date().toLocaleString('es-ES') + ' — ' + allLiveResults.length + ' resultados del sector eléctrico encontrados';
+}
+
+function renderLiveSourceTabs() {
+    const tabsEl = document.getElementById('live-source-tabs');
+    const counts = { todos: allLiveResults.length };
+    allLiveResults.forEach(r => {
+        counts[r.label] = (counts[r.label] || 0) + 1;
+    });
+    let html = '';
+    const sources = ['todos', ...Object.keys(counts).filter(k => k !== 'todos')];
+    sources.forEach(s => {
+        const label = s === 'todos' ? 'Todas las fuentes' : s;
+        const active = s === activeLiveSource ? ' active' : '';
+        html += `<button class="live-source-tab${active}" onclick="setLiveSource('${s}')">${label}<span class="live-source-count">${counts[s] || 0}</span></button>`;
+    });
+    tabsEl.innerHTML = html;
+}
+
+window.setLiveSource = function(s) {
+    activeLiveSource = s;
+    renderLiveSourceTabs();
+    renderLiveResults();
+};
+
+function renderLiveResults() {
+    const container = document.getElementById('live-results-container');
+    const filterText = (document.getElementById('live-filter').value || '').toLowerCase();
+    let filtered = allLiveResults;
+    if (activeLiveSource !== 'todos') {
+        filtered = filtered.filter(r => r.label === activeLiveSource);
+    }
+    if (filterText) {
+        filtered = filtered.filter(r => (r.title + ' ' + r.description).toLowerCase().includes(filterText));
+    }
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="live-status"><div class="icon">📭</div><p>No se encontraron resultados</p><div class="sub">Prueba a ampliar tu búsqueda o seleccionar otra fuente</div></div>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(r => {
+        const d = r.date;
+        const day = d.getDate();
+        const month = d.toLocaleDateString('es-ES', { month: 'short' });
+        const year = d.getFullYear();
+        const desc = r.description || '';
+        return `<div class="live-result-item" onclick="${r.link ? `window.open('${r.link}', '_blank')` : ''}">
+            <div class="live-result-date">
+                <div class="day">${day}</div>
+                <div class="month">${month}</div>
+                <div class="year">${year}</div>
+            </div>
+            <div class="live-result-body">
+                <span class="source-badge ${r.badge}">${r.label}</span>
+                <span class="source-badge" style="background:#f5f5f5;color:#666;">${r.sourceName}</span>
+                <div class="title">${r.title}</div>
+                ${desc ? `<div class="desc">${desc}</div>` : ''}
+                ${r.link ? `<a class="live-result-link" href="${r.link}" target="_blank" onclick="event.stopPropagation()">Ver en fuente oficial →</a>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+window.filterLiveResults = function() { renderLiveResults(); };
+
+function closeLivePanel() {
+    document.getElementById('live-panel-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.getElementById('live-panel-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeLivePanel();
+});
 
 </script>
 </body>
