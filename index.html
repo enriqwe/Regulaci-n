@@ -596,10 +596,10 @@ const normativaNacional = [
         title: "Ley 24/2013, de 26 de diciembre, del Sector Eléctrico",
         type: "ley",
         date: "2013-12-26",
-        updated: "2024-06-15",
+        updated: "2026-03-22",
         tag: "modified",
         tagLabel: "Modificada",
-        summary: "Ley marco del sector eléctrico español. Regula las actividades de generación, transporte, distribución, comercialización e intercambios intracomunitarios e internacionales, así como la gestión económica y técnica del sistema eléctrico.",
+        summary: "Ley marco del sector eléctrico español. Regula generación, transporte, distribución, comercialización y gestión económica y técnica del sistema. Modificada en 2026 por el RDL 7/2026 para incluir la figura del gestor de autoconsumo.",
         impactoREE: "Afecta directamente a la actividad de transporte de REE como TSO. Define el marco retributivo, las obligaciones de planificación, la operación del sistema y el rol de REE como gestor técnico del sistema.",
         detail: `<h3>Principales aspectos regulados</h3>
 <ul>
@@ -618,25 +618,274 @@ const normativaNacional = [
 <li><strong>Retribución:</strong> Marco retributivo basado en costes de inversión y O&M eficientes con tasa de retribución financiera regulada</li>
 <li><strong>Acceso de terceros:</strong> Obligación de conceder acceso no discriminatorio a la red de transporte</li>
 </ul>
-<h3>Últimas modificaciones relevantes</h3>
-<p>Modificada por la Ley 7/2024 en materia de simplificación administrativa para el despliegue de renovables y para la adaptación al marco europeo Clean Energy Package.</p>`
+<h3>Últimas modificaciones relevantes (2025-2026)</h3>
+<p>Modificada por el RDL 7/2025 (medidas de refuerzo tras el apagón del 28 de abril de 2025), el RD 997/2025 (definición de repotenciación y capacidad instalada), el RD 88/2026 (reglamento de suministro, comercialización y agregación) y el RDL 7/2026 (figura del gestor de autoconsumo y ampliación autoconsumo colectivo a 5 km).</p>`
+    },
+    {
+        id: "rdl_7_2026",
+        title: "Real Decreto-ley 7/2026, de 20 de marzo — Plan Integral de Respuesta a la Crisis en Oriente Medio",
+        type: "rdl",
+        date: "2026-03-21",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Paquete de medidas energéticas, fiscales y sociales. En materia eléctrica: amplía el autoconsumo colectivo a 5 km, crea la figura del gestor de autoconsumo, impulsa almacenamiento, reduce fiscalidad energética (IVA, IEE) y obliga a revisar la planificación eléctrica cada 2 años.",
+        impactoREE: "Obliga a REE a revisar la planificación de la red de transporte al menos cada 2 años. El impulso al almacenamiento y autoconsumo a mayor distancia modifica los flujos de energía y las necesidades de red. Los permisos de acceso para almacenamiento pasan a tratarse como acceso flexible de demanda.",
+        detail: `<h3>Medidas en materia de energía eléctrica</h3>
+<ul>
+<li><strong>Autoconsumo colectivo ampliado:</strong> Distancia máxima entre generación y consumo ampliada a 5.000 metros para eólica y FV ≤ 5 MW</li>
+<li><strong>Gestor de autoconsumo:</strong> Nueva figura regulada en la Ley del Sector Eléctrico para representar a consumidores y gestionar instalaciones colectivas</li>
+<li><strong>Almacenamiento:</strong> Permisos de acceso para almacenamiento como acceso flexible de demanda; canon de almacenamiento de 0 €/(kWh/día)/año; utilidad pública para bombeos hidráulicos</li>
+<li><strong>Planificación eléctrica:</strong> Obligación de revisión al menos cada 2 años</li>
+<li><strong>Fiscalidad:</strong> IVA reducido en electricidad, gas natural y biomasa; Impuesto Especial de Electricidad al 0,5% hasta junio 2026</li>
+<li><strong>Incentivos fiscales:</strong> Deducción IRPF del 10-20% para autoconsumo con almacenamiento; bonificaciones IBI (50%) e ICIO (95%)</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Planificación bienal:</strong> La red de transporte debe revisarse cada 2 años, acelerando el ciclo de planificación</li>
+<li><strong>Almacenamiento flexible:</strong> Nuevo tratamiento regulatorio de los permisos de acceso a la red de transporte para almacenamiento</li>
+<li><strong>Mayor autoconsumo distribuido:</strong> Reducción de demanda vista por la red de transporte por ampliación a 5 km</li>
+</ul>`
+    },
+    {
+        id: "rd_88_2026",
+        title: "Real Decreto 88/2026, de 11 de febrero — Reglamento de suministro, comercialización y agregación de energía eléctrica",
+        type: "rd",
+        date: "2026-02-12",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Aprueba el reglamento que regula las actividades minoristas del sector eléctrico: suministro, comercialización y agregación. Desarrolla la figura del agregador independiente, refuerza los derechos del consumidor activo y completa la transposición de la Directiva (UE) 2019/944.",
+        impactoREE: "El desarrollo del agregador independiente habilita nuevos participantes en los mercados de balance gestionados por REE. Los agregadores podrán ofrecer demand response en los servicios de ajuste del sistema.",
+        detail: `<h3>Contenido principal</h3>
+<ul>
+<li><strong>Consumidor activo:</strong> Amplio catálogo de derechos operativos, económicos y de información</li>
+<li><strong>Agregador independiente:</strong> Regulación completa de la figura que combina múltiples consumos o generación para operar en mercados</li>
+<li><strong>Protección del consumidor:</strong> Prohibición de publicidad y contratación telefónica no solicitada; grabación íntegra de llamadas</li>
+<li><strong>Sistema de información:</strong> Punto de suministro centralizado gestionado por distribuidoras</li>
+<li><strong>Comercialización:</strong> Actualización del régimen de la actividad de comercialización</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Agregación y flexibilidad:</strong> Los agregadores independientes podrán participar en los mercados de balance (mFRR, aFRR) gestionados por REE</li>
+<li><strong>Demand response:</strong> Mayor volumen de recursos de flexibilidad de demanda disponibles para la operación del sistema</li>
+<li><strong>Transposición Directiva 2019/944:</strong> Completa la adaptación al marco europeo del mercado interior de electricidad</li>
+</ul>`
+    },
+    {
+        id: "rdl_2_2026",
+        title: "Real Decreto-ley 2/2026, de 3 de febrero — Medidas urgentes de vulnerabilidad social, tributarias y financiación territorial",
+        type: "rdl",
+        date: "2026-02-05",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Prorroga las medidas de protección a consumidores vulnerables en el ámbito energético hasta 31/12/2026: bono social eléctrico extraordinario (42,5% vulnerables, 57,5% severos) y prohibición de corte de suministro a hogares vulnerables.",
+        impactoREE: "Impacto indirecto. La prórroga del bono social y la prohibición de cortes afecta a comercializadoras y distribuidoras, pero el coste del bono social se financia vía cargos del sistema que inciden en la liquidación general del sistema.",
+        detail: `<h3>Medidas energéticas</h3>
+<ul>
+<li><strong>Bono social eléctrico:</strong> Descuento extraordinario del 42,5% para consumidor vulnerable y 57,5% para consumidor vulnerable severo, hasta 31/12/2026</li>
+<li><strong>Prohibición de corte:</strong> Se mantiene la prohibición de suspensión de suministros básicos (agua, electricidad, gas) a consumidores vulnerables hasta 31/12/2026</li>
+<li><strong>Protección laboral:</strong> Empresas beneficiarias de ayudas no pueden invocar el aumento de costes energéticos como causa objetiva de despido hasta 31/12/2026</li>
+</ul>
+<h3>Contexto</h3>
+<p>Se adopta mientras se desarrolla la nueva Estrategia Nacional contra la Pobreza Energética con horizonte 2030. Convalidado por el Congreso.</p>`
+    },
+    {
+        id: "rd_997_2025",
+        title: "Real Decreto 997/2025, de 5 de noviembre — Medidas urgentes para el refuerzo del sistema eléctrico",
+        type: "rd",
+        date: "2025-11-06",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Aprobado tras el apagón del 28 de abril de 2025. Refuerza la supervisión del sistema eléctrico, reformula la capacidad instalada, simplifica autorizaciones de almacenamiento y define la repotenciación de instalaciones de generación y almacenamiento.",
+        impactoREE: "Refuerza las obligaciones de supervisión de REE y la CNMC sobre el control de tensión. Define repotenciación, lo que afecta a la gestión de permisos de acceso a la red de transporte. Simplifica la tramitación de almacenamiento en ubicaciones existentes.",
+        detail: `<h3>Medidas principales</h3>
+<ul>
+<li><strong>Supervisión y transparencia:</strong> Obligación de la CNMC de elaborar informe de seguimiento del cumplimiento de obligaciones de control de tensión en 6 meses</li>
+<li><strong>Capacidad instalada:</strong> Reformulación de la definición de capacidad instalada para autorizaciones de generación y almacenamiento</li>
+<li><strong>Almacenamiento:</strong> Simplificación de autorizaciones para hibridaciones en suelo previamente usado con DIA existente; reducción a la mitad de plazos de tramitación</li>
+<li><strong>Repotenciación:</strong> Definición reglamentaria: sustitución de tecnología existente por instalaciones más eficientes y de mayor capacidad en la misma ubicación</li>
+<li><strong>Responsabilidad solidaria:</strong> Productores que comparten infraestructura de evacuación responden solidariamente</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Control de tensión:</strong> Refuerzo de la vigilancia del cumplimiento de obligaciones de control de tensión por todos los agentes</li>
+<li><strong>Repotenciación:</strong> Nuevos procedimientos de acceso para instalaciones repotenciadas</li>
+<li><strong>Planificación de resiliencia:</strong> Nuevas actuaciones incorporadas al Plan de Desarrollo de la Red de Transporte 2021-2026</li>
+</ul>`
+    },
+    {
+        id: "rdl_7_2025",
+        title: "Real Decreto-ley 7/2025, de 24 de junio — Medidas urgentes para el refuerzo del sistema eléctrico",
+        type: "rdl",
+        date: "2025-06-25",
+        updated: "2025-11-06",
+        tag: "modified",
+        tagLabel: "Derogado",
+        summary: "Primer paquete normativo tras el apagón del 28 de abril de 2025. Incluía medidas de resiliencia del sistema, almacenamiento y flexibilidad, mecanismo de capacidad, y electrificación industrial. Derogado por el Congreso; su contenido fue reformulado en el RD 997/2025.",
+        impactoREE: "Aunque derogado, sentó las bases de las medidas de refuerzo del sistema que luego se aprobaron por Real Decreto. Incluía obligaciones de informe CNMC sobre control de tensión, almacenamiento y apoyo a industria electrointensiva.",
+        detail: `<h3>Contenido (derogado)</h3>
+<ul>
+<li><strong>Cap. I — Resiliencia:</strong> Refuerzo de supervisión y verificación del cumplimiento de control de tensión y amortiguamiento de oscilaciones</li>
+<li><strong>Cap. II — Almacenamiento y flexibilidad:</strong> Mecanismo de capacidad y grupos de emergencia</li>
+<li><strong>Cap. III — Electrificación:</strong> Restablecimiento del mecanismo de apoyo a industria electrointensiva (reducción del 80% en peajes de T&D)</li>
+<li><strong>Hitos renovables:</strong> Extensión automática del quinto hito hasta 25/09/2025</li>
+</ul>
+<h3>Contexto</h3>
+<p>Aprobado como respuesta al apagón generalizado del 28 de abril de 2025. Fue derogado por el Pleno del Congreso (165 a favor de derogación, 183 en contra). Las medidas esenciales fueron retomadas por el RD 997/2025 de noviembre.</p>`
+    },
+    {
+        id: "resolucion_po_2026",
+        title: "Resolución CNMC de 19 de enero de 2026 — Modificación de Procedimientos de Operación 3.1, 3.2 y 7.2",
+        type: "circular",
+        date: "2026-01-22",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nueva",
+        summary: "Modifica los procedimientos de operación eléctricos P.O. 3.1 (programación de la generación), P.O. 3.2 (restricciones técnicas) y P.O. 7.2 (regulación de tensión) para introducir medidas urgentes de estabilización de la tensión en el sistema eléctrico peninsular.",
+        impactoREE: "Impacto operativo directo. REE como operador del sistema debe implementar las medidas de estabilización de tensión en tiempo real. Modifica los procesos de resolución de restricciones técnicas y regulación de tensión.",
+        detail: `<h3>Procedimientos modificados</h3>
+<ul>
+<li><strong>P.O. 3.1:</strong> Programación de la generación — nuevos criterios de despacho para estabilización de tensión</li>
+<li><strong>P.O. 3.2:</strong> Restricciones técnicas — adaptación de los procesos de resolución de restricciones para incorporar requisitos de tensión</li>
+<li><strong>P.O. 7.2:</strong> Regulación de tensión — medidas urgentes para estabilización en el sistema peninsular</li>
+</ul>
+<h3>Contexto</h3>
+<p>Respuesta regulatoria al diagnóstico del apagón de abril de 2025, que identificó debilidades en el control de tensión del sistema peninsular. Aprobada por la Sala de Supervisión Regulatoria de la CNMC.</p>`
+    },
+    {
+        id: "circular_retrib_transporte_2025",
+        title: "Circulares CNMC de 22 de diciembre de 2025 — Retribución de redes eléctricas 2026-2031 (TRF 6,58%)",
+        type: "circular",
+        date: "2025-12-30",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevas",
+        summary: "Paquete de 3 circulares que fijan la tasa de retribución financiera (TRF) al 6,58% para el periodo regulatorio 2026-2031 (+100 pb respecto al 5,58% anterior). Incluye nueva metodología de retribución de transporte y distribución.",
+        impactoREE: "Norma crítica: determina los ingresos regulados de REE durante los próximos 6 años. La TRF del 6,58% (por debajo del 7% solicitado por el sector) fija el retorno de las inversiones en la red de transporte. La retribución del transporte sube un 12,1% respecto a 2025.",
+        detail: `<h3>Circulares aprobadas</h3>
+<ul>
+<li><strong>CIR/DE/002/24:</strong> Modifica la Circular 2/2019 sobre metodología de la tasa de retribución financiera → TRF fijada en 6,58% para 2026-2031</li>
+<li><strong>CIR/DE/007/24:</strong> Modifica la Circular 5/2019 sobre retribución del transporte → nuevos valores unitarios de inversión y O&M, actualización de parámetros de eficiencia</li>
+<li><strong>Circular 8/2025:</strong> Nueva metodología de retribución de distribución (sustituye Circular 6/2019) → mayor eficiencia, calidad, reducción de pérdidas</li>
+</ul>
+<h3>Afecciones para Red Eléctrica</h3>
+<ul>
+<li><strong>Ingresos regulados:</strong> Retribución del transporte +12,1% en 2026 respecto a 2025; TRF del 6,58% para los próximos 6 años</li>
+<li><strong>Inversiones:</strong> Marco retributivo estable que facilita la planificación de las inversiones del PDRT 2025-2030</li>
+<li><strong>Eficiencia:</strong> Nuevos parámetros de eficiencia basados en benchmarking europeo</li>
+<li><strong>Periodo regulatorio:</strong> 6 años (2026-2031), uno de los más largos de Europa</li>
+</ul>`
+    },
+    {
+        id: "resol_peajes_2026",
+        title: "Resolución CNMC de 18 de diciembre de 2025 — Peajes de transporte y distribución para 2026",
+        type: "circular",
+        date: "2025-12-24",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nueva",
+        summary: "Establece los valores de los peajes de acceso a las redes de transporte y distribución de electricidad aplicables desde el 1 de enero de 2026. Retribución del transporte +12,1% y distribución +2,5% respecto a 2025.",
+        impactoREE: "Los peajes de transporte financian directamente la retribución de REE. El incremento del 12,1% refleja la actualización de la TRF al 6,58% y el reconocimiento de nuevas inversiones en red.",
+        detail: `<h3>Principales cambios</h3>
+<ul>
+<li>Retribución del transporte: incremento del 12,1% respecto a 2025</li>
+<li>Retribución de la distribución: incremento del 2,5%</li>
+<li>Ajuste por desviaciones de ingresos del ejercicio anterior</li>
+<li>Aplicación de la nueva TRF del 6,58%</li>
+</ul>`
+    },
+    {
+        id: "om_cargos_2026",
+        title: "Orden TED/1524/2025, de 23 de diciembre — Cargos del sistema eléctrico para 2026",
+        type: "om",
+        date: "2025-12-27",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nueva",
+        summary: "Establece los precios de los cargos del sistema eléctrico y diversos costes regulados para 2026. Incluye el reparto de financiación del bono social y el coste de suministro a consumidores de los arts. 52.4.j) y 52.4.k) de la LSE.",
+        impactoREE: "Los cargos del sistema complementan a los peajes para cubrir los costes regulados. Define la financiación del bono social y otros costes del sistema que afectan a la liquidación general gestionada por REE.",
+        detail: `<h3>Contenido</h3>
+<ul>
+<li>Precios de los cargos del sistema eléctrico para 2026</li>
+<li>Costes regulados del sistema reconocidos</li>
+<li>Financiación del bono social eléctrico</li>
+<li>Coste de suministro a consumidores de último recurso</li>
+</ul>`
+    },
+    {
+        id: "plan_resiliencia_red",
+        title: "Acuerdo del Consejo de Ministros de 8 de julio de 2025 — Actuaciones de resiliencia de la Red de Transporte 2021-2026",
+        type: "rd",
+        date: "2025-07-17",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Aprueba el listado de actuaciones que se incorporan al Plan de Desarrollo de la Red de Transporte de Energía Eléctrica 2021-2026 para aumentar la resiliencia de la red tras el apagón del 28 de abril de 2025.",
+        impactoREE: "Nuevas inversiones obligatorias para REE en refuerzo y resiliencia de la red de transporte. Actuaciones específicas para mejorar la capacidad de respuesta ante incidentes de gran magnitud.",
+        detail: `<h3>Contexto</h3>
+<p>Tras el apagón generalizado del 28 de abril de 2025, el Gobierno aprueba actuaciones adicionales al Plan de Desarrollo de la Red de Transporte para reforzar la resiliencia del sistema.</p>
+<h3>Actuaciones</h3>
+<ul>
+<li>Refuerzo de líneas críticas de interconexión con Francia y Portugal</li>
+<li>Instalación de equipamiento de compensación de reactiva (SVC, STATCOM)</li>
+<li>Mejora de los sistemas de protección y automatización</li>
+<li>Refuerzo de la capacidad de arranque autónomo (black start)</li>
+<li>Digitalización y monitorización en tiempo real de la red de 400 kV</li>
+</ul>`
+    },
+    {
+        id: "circular_1_2025_peajes",
+        title: "Circular 1/2025 CNMC, de 28 de enero — Modificación de la metodología de peajes de T&D",
+        type: "circular",
+        date: "2025-02-03",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nueva",
+        summary: "Modifica la Circular 3/2020 sobre metodología de cálculo de peajes de transporte y distribución de electricidad. Actualiza la estructura tarifaria y los criterios de asignación de costes.",
+        impactoREE: "Modifica la metodología de cálculo de los peajes que financian la retribución de la actividad de transporte de REE. Afecta a las señales económicas que reciben los usuarios de la red.",
+        detail: `<h3>Principales modificaciones</h3>
+<ul>
+<li>Actualización de la estructura de peajes de transporte y distribución</li>
+<li>Revisión de los criterios de asignación de costes entre niveles de tensión</li>
+<li>Adaptación a la nueva estructura de costes del sistema</li>
+</ul>`
+    },
+    {
+        id: "rdl_16_2025",
+        title: "Real Decreto-ley 16/2025, de 23 de diciembre — Prórroga de medidas de vulnerabilidad social",
+        type: "rdl",
+        date: "2025-12-24",
+        updated: null,
+        tag: "new",
+        tagLabel: "Nuevo",
+        summary: "Prorroga medidas para hacer frente a situaciones de vulnerabilidad social incluyendo medidas energéticas: mantenimiento de la prohibición de corte de suministro a consumidores vulnerables y extensión del bono social eléctrico.",
+        impactoREE: "Impacto indirecto vía costes del sistema. El bono social y las medidas de protección se financian vía cargos del sistema.",
+        detail: `<h3>Medidas energéticas prorrogadas</h3>
+<ul>
+<li>Prohibición de corte de suministro a consumidores vulnerables</li>
+<li>Bono social eléctrico extraordinario</li>
+<li>Medidas tributarias urgentes en materia energética</li>
+</ul>`
     },
     {
         id: "rd1955",
         title: "Real Decreto 1955/2000 — Regulación del transporte, distribución, comercialización, suministro y autorización de instalaciones",
         type: "rd",
         date: "2000-12-01",
-        updated: "2024-03-10",
+        updated: "2026-02-12",
         tag: "modified",
         tagLabel: "Modificado",
-        summary: "Regula las actividades de transporte, distribución, comercialización y suministro de energía eléctrica, así como los procedimientos de autorización de instalaciones eléctricas.",
+        summary: "Regula las actividades de transporte, distribución, comercialización y suministro de energía eléctrica, así como los procedimientos de autorización de instalaciones eléctricas. Parcialmente sustituido en materia de suministro por el RD 88/2026.",
         impactoREE: "Define los procedimientos de autorización de instalaciones de transporte, los requisitos técnicos y las condiciones de acceso y conexión a la red de transporte.",
         detail: `<h3>Contenido principal</h3>
 <ul>
 <li>Procedimientos de autorización administrativa de instalaciones eléctricas</li>
 <li>Condiciones técnicas de las instalaciones de transporte</li>
 <li>Régimen de acceso y conexión a redes de transporte y distribución</li>
-<li>Regulación de la actividad de suministro a consumidores</li>
+<li>Regulación de la actividad de suministro a consumidores (parcialmente sustituida por RD 88/2026)</li>
 <li>Derechos y obligaciones de los sujetos del sistema</li>
 </ul>
 <h3>Afecciones para Red Eléctrica</h3>
@@ -651,11 +900,11 @@ const normativaNacional = [
         title: "Real Decreto 1183/2020 — Acceso y conexión a las redes de transporte y distribución",
         type: "rd",
         date: "2020-12-29",
-        updated: "2024-11-01",
+        updated: "2025-11-06",
         tag: "modified",
         tagLabel: "Modificado",
-        summary: "Regula las condiciones y procedimientos para el otorgamiento de los permisos de acceso y conexión a las redes de transporte y distribución de energía eléctrica.",
-        impactoREE: "Impacto directo en la gestión de solicitudes de acceso a la red de transporte. Define plazos, criterios y procedimientos que REE debe aplicar como responsable de otorgar permisos de acceso a la red de transporte.",
+        summary: "Regula las condiciones y procedimientos de acceso y conexión a redes. Modificado por el RD 997/2025 en materia de definición de capacidad instalada, repotenciación y tratamiento del almacenamiento.",
+        impactoREE: "Impacto directo en la gestión de solicitudes de acceso a la red de transporte. El RD 997/2025 introdujo nuevos criterios de repotenciación y simplificó el acceso para almacenamiento.",
         detail: `<h3>Aspectos clave</h3>
 <ul>
 <li>Diferenciación entre permisos de acceso (capacidad de red) y conexión (punto físico)</li>
@@ -665,26 +914,23 @@ const normativaNacional = [
 <li>Hitos de desarrollo que deben cumplir los titulares de permisos</li>
 <li>Procedimiento de concurrencia competitiva en nudos con capacidad limitada</li>
 </ul>
-<h3>Afecciones para Red Eléctrica</h3>
+<h3>Modificaciones 2025 (RD 997/2025)</h3>
 <ul>
-<li><strong>Evaluación de capacidad:</strong> REE debe calcular y publicar la capacidad de acceso disponible en cada nudo de la red de transporte</li>
-<li><strong>Tramitación de solicitudes:</strong> Plazos estrictos para resolver solicitudes de acceso</li>
-<li><strong>Estudios técnicos:</strong> Obligación de realizar estudios de viabilidad de acceso</li>
-<li><strong>Digitalización:</strong> Plataforma electrónica para la tramitación de solicitudes</li>
-</ul>
-<h3>Modificaciones recientes (2024)</h3>
-<p>Modificado para agilizar la tramitación de permisos de acceso para instalaciones de almacenamiento y para adaptar los procedimientos a la Directiva (UE) 2019/944.</p>`
+<li><strong>Repotenciación:</strong> Nueva definición reglamentaria — sustitución de tecnología por instalaciones más eficientes en la misma ubicación</li>
+<li><strong>Capacidad instalada:</strong> Reformulación para autorizaciones de generación y almacenamiento</li>
+<li><strong>Almacenamiento:</strong> Simplificación de tramitación para hibridaciones en suelo con DIA existente</li>
+</ul>`
     },
     {
         id: "rd960",
-        title: "Real Decreto 960/2020 — Régimen económico de energías renovables para instalaciones con REER",
+        title: "Real Decreto 960/2020 — Régimen económico de energías renovables (REER)",
         type: "rd",
         date: "2020-11-03",
         updated: "2024-06-01",
         tag: "modified",
         tagLabel: "Modificado",
-        summary: "Establece el marco regulatorio del Régimen Económico de Energías Renovables (REER), definiendo el sistema de subastas para otorgar el régimen retributivo a nuevas instalaciones de generación renovable.",
-        impactoREE: "REE participa en la integración de renovables al sistema y debe gestionar la variabilidad de generación asociada. Afecta a la planificación de red para evacuar nueva generación renovable.",
+        summary: "Marco regulatorio del REER: sistema de subastas para otorgar retribución a nuevas instalaciones de generación renovable mediante contratos por diferencias (CfD).",
+        impactoREE: "REE participa en la integración de renovables al sistema. Las subastas REER condicionan la ubicación y volumen de nueva generación, afectando a la planificación de red.",
         detail: `<h3>Marco del REER</h3>
 <ul>
 <li>Subastas competitivas como mecanismo principal de asignación</li>
@@ -698,43 +944,36 @@ const normativaNacional = [
     },
     {
         id: "circular_6_2019",
-        title: "Circular 6/2019 CNMC — Metodología de retribución del transporte de electricidad",
+        title: "Circular 5/2019 CNMC — Metodología de retribución del transporte de electricidad (sustituida parcialmente)",
         type: "circular",
         date: "2019-12-05",
-        updated: "2025-01-15",
+        updated: "2025-12-30",
         tag: "modified",
         tagLabel: "Actualizada",
-        summary: "Establece la metodología para el cálculo de la retribución de la actividad de transporte de energía eléctrica, incluyendo la tasa de retribución financiera y los parámetros de eficiencia.",
-        impactoREE: "Norma crítica que determina directamente los ingresos regulados de REE por su actividad de transporte. Define la tasa de retribución financiera, los costes reconocidos y los incentivos.",
+        summary: "Metodología de retribución del transporte. Modificada en diciembre de 2025 por la Circular CIR/DE/007/24 que actualiza valores unitarios y parámetros de eficiencia para el período 2026-2031 con TRF del 6,58%.",
+        impactoREE: "Norma crítica que determina los ingresos regulados de REE. La TRF sube del 5,58% al 6,58% para 2026-2031. Retribución del transporte +12,1% en 2026.",
         detail: `<h3>Metodología retributiva</h3>
 <ul>
-<li>Tasa de retribución financiera sobre activos en servicio</li>
+<li>Tasa de retribución financiera: 6,58% para 2026-2031 (antes 5,58%)</li>
 <li>Reconocimiento de costes de inversión (CAPEX) y operación y mantenimiento (OPEX)</li>
 <li>Vida útil regulatoria de las instalaciones</li>
 <li>Incentivos por disponibilidad y calidad de servicio</li>
 <li>Factor de eficiencia aplicable a costes operativos</li>
-<li>Período regulatorio de 6 años con revisiones intermedias</li>
+<li>Período regulatorio de 6 años</li>
 </ul>
-<h3>Afecciones para Red Eléctrica</h3>
-<ul>
-<li><strong>Ingresos regulados:</strong> Determina la retribución anual por la actividad de transporte</li>
-<li><strong>Planificación de inversiones:</strong> Condiciona el retorno esperado de nuevas inversiones en red</li>
-<li><strong>Eficiencia operativa:</strong> Incentivos para la reducción de costes operativos</li>
-<li><strong>Calidad de servicio:</strong> Penalizaciones y bonificaciones por indicadores de calidad</li>
-</ul>
-<h3>Actualización 2025</h3>
-<p>Revisión intermedia del período regulatorio con ajuste de la tasa de retribución financiera y actualización de los parámetros de eficiencia para el período 2025-2028.</p>`
+<h3>Actualización diciembre 2025</h3>
+<p>La Circular CIR/DE/007/24 actualiza los valores unitarios de inversión y O&M, y los parámetros de eficiencia para el nuevo período regulatorio 2026-2031. La TRF del 6,58% representa un incremento de 100 pb respecto al período anterior, por debajo del 7% solicitado por las empresas eléctricas.</p>`
     },
     {
         id: "circular_3_2020",
         title: "Circular 3/2020 CNMC — Metodología de cálculo de peajes de transporte y distribución",
         type: "circular",
         date: "2020-01-16",
-        updated: "2024-12-01",
+        updated: "2025-02-03",
         tag: "modified",
         tagLabel: "Actualizada",
-        summary: "Establece la metodología para el cálculo de los peajes de acceso a las redes de transporte y distribución de electricidad que deben pagar los usuarios del sistema.",
-        impactoREE: "Define la estructura tarifaria que genera los ingresos para cubrir los costes regulados de transporte. Afecta a la señal económica que reciben los usuarios de la red de transporte.",
+        summary: "Metodología de peajes de acceso a redes de T&D. Modificada por la Circular 1/2025 de enero de 2025 que actualiza la estructura tarifaria.",
+        impactoREE: "Define la estructura tarifaria que genera los ingresos para cubrir los costes regulados de transporte de REE.",
         detail: `<h3>Estructura de peajes</h3>
 <ul>
 <li>Peajes de transporte diferenciados por nivel de tensión</li>
@@ -743,18 +982,18 @@ const normativaNacional = [
 <li>Metodología de asignación de costes entre niveles de tensión</li>
 <li>Peajes de generación para productores conectados a la red</li>
 </ul>
-<h3>Impacto en REE</h3>
-<p>Los peajes de transporte constituyen la fuente de ingresos para la retribución de la actividad de transporte de REE. La estructura tarifaria condiciona las señales económicas para la localización eficiente de generación y demanda.</p>`
+<h3>Modificación 2025</h3>
+<p>La Circular 1/2025 de 28 de enero actualizó la metodología de cálculo, resultando en una reducción media del 4% en peajes para 2025 y posterior incremento para 2026 por la actualización de la TRF.</p>`
     },
     {
         id: "rdl_20_2018",
         title: "Real Decreto-ley 15/2018 — Medidas urgentes para la transición energética",
         type: "rdl",
         date: "2018-10-05",
-        updated: null,
-        tag: "new",
-        tagLabel: "Vigente",
-        summary: "Medidas urgentes para la transición energética y la protección de consumidores, incluyendo la eliminación del impuesto al sol y la regulación del autoconsumo.",
+        updated: "2026-03-22",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Medidas para la transición energética incluyendo eliminación del impuesto al sol. Modificado por el RDL 7/2026 que amplía autoconsumo colectivo a 5 km y crea la figura del gestor de autoconsumo.",
         impactoREE: "Marco regulatorio del autoconsumo que afecta a la demanda neta del sistema y a los flujos de energía en la red de transporte.",
         detail: `<h3>Medidas principales</h3>
 <ul>
@@ -762,30 +1001,33 @@ const normativaNacional = [
 <li>Reconocimiento del autoconsumo compartido</li>
 <li>Simplificación administrativa para instalaciones de autoconsumo</li>
 <li>Bono social eléctrico reformado</li>
-<li>Medidas de protección para consumidores vulnerables</li>
 </ul>
-<h3>Impacto sistémico</h3>
-<p>El desarrollo del autoconsumo modifica los patrones de consumo visto por la red de transporte, afectando a la operación del sistema y a las necesidades de servicios de ajuste que gestiona REE.</p>`
+<h3>Modificación por RDL 7/2026</h3>
+<ul>
+<li>Autoconsumo colectivo ampliado a 5.000 metros</li>
+<li>Nueva figura del gestor de autoconsumo</li>
+<li>Combinación de modalidades de autoconsumo</li>
+</ul>`
     },
     {
         id: "rd244",
         title: "Real Decreto 244/2019 — Condiciones del autoconsumo de energía eléctrica",
         type: "rd",
         date: "2019-04-05",
-        updated: "2024-09-01",
+        updated: "2026-03-22",
         tag: "modified",
         tagLabel: "Modificado",
-        summary: "Desarrolla las condiciones administrativas, técnicas y económicas del autoconsumo de energía eléctrica. Establece las modalidades de autoconsumo y el régimen de compensación de excedentes.",
-        impactoREE: "Afecta a la previsión de demanda y a la operación del sistema. El autoconsumo distribuido reduce la demanda vista por la red de transporte y puede crear rampas de generación convencional.",
+        summary: "Condiciones del autoconsumo de energía eléctrica. Modificado por el RDL 7/2026 que amplía la distancia del autoconsumo colectivo a 5 km y habilita la combinación de modalidades.",
+        impactoREE: "Afecta a la previsión de demanda y operación del sistema. La ampliación a 5 km incrementará significativamente el autoconsumo distribuido.",
         detail: `<h3>Modalidades de autoconsumo</h3>
 <ul>
 <li>Autoconsumo sin excedentes</li>
 <li>Autoconsumo con excedentes acogido a compensación</li>
 <li>Autoconsumo con excedentes no acogido a compensación</li>
-<li>Autoconsumo colectivo</li>
+<li>Autoconsumo colectivo (ampliado a 5 km por RDL 7/2026)</li>
 </ul>
-<h3>Impacto en la operación del sistema</h3>
-<p>REE debe integrar la generación distribuida por autoconsumo en sus modelos de previsión de demanda y gestión de restricciones técnicas.</p>`
+<h3>Novedades RDL 7/2026</h3>
+<p>Ampliación de la distancia máxima a 5 km para eólica y FV ≤ 5 MW. Posibilidad de combinar modalidades. Figura del gestor de autoconsumo colectivo.</p>`
     },
     {
         id: "pniec",
@@ -795,8 +1037,8 @@ const normativaNacional = [
         updated: "2024-10-01",
         tag: "modified",
         tagLabel: "Actualizado",
-        summary: "Plan estratégico que establece los objetivos de descarbonización, eficiencia energética, renovables y seguridad de suministro para el período 2021-2030.",
-        impactoREE: "Define los objetivos de generación renovable que condicionan directamente la planificación de la red de transporte. El PNIEC actualizado eleva los objetivos a 81% de renovables en generación eléctrica para 2030.",
+        summary: "Plan estratégico con objetivos de descarbonización, renovables y seguridad de suministro. Objetivo: 81% de renovables en generación eléctrica para 2030.",
+        impactoREE: "Define los objetivos de generación renovable que condicionan la planificación de la red de transporte. REE estima inversiones superiores a 7.000 M€ en 2025-2030.",
         detail: `<h3>Objetivos 2030 actualizados</h3>
 <ul>
 <li>81% de energía renovable en generación eléctrica</li>
@@ -816,8 +1058,8 @@ const normativaNacional = [
         updated: "2024-07-01",
         tag: "modified",
         tagLabel: "Modificada",
-        summary: "Establece las directrices de funcionamiento de los mercados de balance del sistema eléctrico, adaptando la regulación al Reglamento (UE) 2017/2195 sobre directrices de balance.",
-        impactoREE: "Define las reglas del mercado de balance que REE gestiona como operador del sistema. Incluye productos estándar, plataformas europeas y procesos de activación.",
+        summary: "Directrices de los mercados de balance del sistema eléctrico, adaptando la regulación al Reglamento (UE) 2017/2195.",
+        impactoREE: "Define las reglas del mercado de balance que REE gestiona como operador del sistema: productos estándar, plataformas europeas y procesos de activación.",
         detail: `<h3>Aspectos regulados</h3>
 <ul>
 <li>Productos de balance: RR, mFRR, aFRR</li>
@@ -825,40 +1067,35 @@ const normativaNacional = [
 <li>Modelo de liquidación de desvíos</li>
 <li>Integración con plataformas europeas (TERRE, MARI, PICASSO)</li>
 <li>Requisitos de precalificación de proveedores de servicios de balance</li>
-</ul>
-<h3>Impacto en REE</h3>
-<p>REE como operador del sistema es responsable de la gestión del mercado de balance. La integración con plataformas europeas supone un cambio operativo significativo.</p>`
+</ul>`
     },
     {
         id: "om_peajes_2025",
-        title: "Orden TED/1232/2024 — Peajes de acceso de energía eléctrica para 2025",
+        title: "Orden TED/1487/2024, de 26 de diciembre — Cargos del sistema eléctrico para 2025",
         type: "om",
-        date: "2024-12-20",
+        date: "2024-12-28",
         updated: null,
-        tag: "new",
-        tagLabel: "Nueva",
-        summary: "Establece los peajes de acceso de energía eléctrica aplicables a partir del 1 de enero de 2025, incluyendo los peajes de transporte y distribución.",
-        impactoREE: "Determina los precios de los peajes de transporte que financian la retribución de REE para el ejercicio 2025.",
-        detail: `<h3>Principales novedades</h3>
+        tag: "modified",
+        tagLabel: "Vigente",
+        summary: "Establece los precios de los cargos del sistema eléctrico y costes regulados para 2025.",
+        impactoREE: "Determina la financiación de los costes regulados del sistema para 2025, complementando a los peajes.",
+        detail: `<h3>Contenido</h3>
 <ul>
-<li>Actualización de peajes de transporte en AT y MAT</li>
-<li>Revisión de períodos horarios</li>
-<li>Ajuste por desviaciones de ingresos regulados del ejercicio anterior</li>
-<li>Adaptación a la nueva estructura de costes del sistema</li>
-</ul>
-<h3>Impacto en financiación de REE</h3>
-<p>Los peajes determinan la recaudación por acceso a redes que financia la retribución de la actividad de transporte de REE en 2025.</p>`
+<li>Precios de los cargos del sistema eléctrico para 2025</li>
+<li>Costes regulados reconocidos</li>
+<li>Financiación del bono social</li>
+</ul>`
     },
     {
         id: "rd_planificacion",
-        title: "Real Decreto de Planificación de la Red de Transporte 2025-2030",
+        title: "Plan de Desarrollo de la Red de Transporte de Energía Eléctrica 2021-2026",
         type: "rd",
         date: "2024-11-15",
-        updated: null,
-        tag: "new",
-        tagLabel: "Nuevo",
-        summary: "Aprueba la planificación de la red de transporte de energía eléctrica para el período 2025-2030, incluyendo las inversiones necesarias para la integración de renovables y la interconexión con Francia y Portugal.",
-        impactoREE: "Norma clave que define las inversiones obligatorias de REE en los próximos 5 años. Incluye más de 50 actuaciones en la red de transporte de 400 kV y 220 kV.",
+        updated: "2025-07-17",
+        tag: "modified",
+        tagLabel: "Ampliado",
+        summary: "Planificación de la red de transporte. Ampliado en julio de 2025 con actuaciones de resiliencia tras el apagón del 28 de abril. Incluye más de 50 actuaciones en 400 kV y 220 kV, interconexiones y eólica offshore.",
+        impactoREE: "Norma clave que define las inversiones obligatorias de REE. Ampliado con actuaciones de resiliencia post-apagón.",
         detail: `<h3>Principales actuaciones</h3>
 <ul>
 <li>Refuerzo del eje mediterráneo (400 kV) para evacuación de renovables</li>
@@ -868,19 +1105,26 @@ const normativaNacional = [
 <li>Ampliación de la interconexión con Portugal (3ª interconexión)</li>
 <li>Desarrollo de red submarina para eólica offshore</li>
 </ul>
-<h3>Inversiones estimadas</h3>
-<p>Inversión total prevista: 7.500 M€ en el período 2025-2030. REE debe ejecutar esta planificación con carácter obligatorio conforme a la Ley del Sector Eléctrico.</p>`
+<h3>Ampliación de resiliencia (julio 2025)</h3>
+<ul>
+<li>Instalación de equipamiento de compensación de reactiva (SVC, STATCOM)</li>
+<li>Mejora de sistemas de protección y automatización</li>
+<li>Refuerzo de capacidad de arranque autónomo (black start)</li>
+<li>Digitalización y monitorización en tiempo real de la red de 400 kV</li>
+</ul>
+<h3>Inversiones</h3>
+<p>Inversión total prevista: >7.500 M€. REE debe ejecutar esta planificación con carácter obligatorio.</p>`
     },
     {
         id: "rd_almacenamiento",
         title: "Real Decreto de regulación del almacenamiento de energía eléctrica",
         type: "rd",
         date: "2024-09-20",
-        updated: null,
-        tag: "new",
-        tagLabel: "Nuevo",
-        summary: "Establece el marco regulatorio para el almacenamiento de energía eléctrica, incluyendo su clasificación como actividad independiente, los requisitos de acceso y conexión, y su participación en los mercados.",
-        impactoREE: "Define el marco para que REE pueda operar almacenamiento como TSO en casos excepcionales. Establece nuevas categorías de conexión a la red de transporte para instalaciones de almacenamiento.",
+        updated: "2026-03-22",
+        tag: "modified",
+        tagLabel: "Modificado",
+        summary: "Marco del almacenamiento como actividad diferenciada. Modificado por RDL 7/2026: canon de 0 €, utilidad pública de bombeos, acceso flexible para almacenamiento.",
+        impactoREE: "REE puede operar almacenamiento como TSO en casos excepcionales. El RDL 7/2026 refuerza el acceso flexible para almacenamiento y declara la utilidad pública de bombeos hidráulicos.",
         detail: `<h3>Marco regulatorio del almacenamiento</h3>
 <ul>
 <li>Clasificación del almacenamiento como actividad diferenciada</li>
@@ -889,26 +1133,32 @@ const normativaNacional = [
 <li>Requisitos de acceso y conexión específicos</li>
 <li>Hibridación de generación con almacenamiento</li>
 </ul>
-<h3>Impacto en REE</h3>
-<p>REE podrá operar almacenamiento a gran escala como herramienta de operación del sistema cuando no exista interés de mercado. Además, debe adaptar sus procedimientos de acceso para instalaciones de almacenamiento stand-alone e híbridas.</p>`
+<h3>Novedades RDL 7/2026</h3>
+<ul>
+<li>Canon de almacenamiento de 0 €/(kWh/día)/año para capacidad excedente</li>
+<li>Utilidad pública declarada para bombeos hidráulicos</li>
+<li>Permisos de acceso como acceso flexible de demanda</li>
+</ul>`
     },
     {
         id: "circular_8_2019",
-        title: "Circular 8/2019 CNMC — Metodología de retribución de la distribución",
+        title: "Circular 6/2019 CNMC — Metodología de retribución de la distribución (sustituida)",
         type: "circular",
         date: "2019-12-05",
-        updated: "2024-06-01",
+        updated: "2025-12-30",
         tag: "modified",
-        tagLabel: "Actualizada",
-        summary: "Establece la metodología para el cálculo de la retribución de la actividad de distribución de energía eléctrica.",
-        impactoREE: "Si bien afecta primariamente a distribuidoras, la retribución de distribución incide en los costes totales del sistema que determinan los peajes, afectando indirectamente a REE.",
-        detail: `<h3>Contenido principal</h3>
+        tagLabel: "Sustituida",
+        summary: "Metodología de retribución de distribución. Sustituida por la Circular 8/2025 de 22 de diciembre de 2025, con nueva metodología para el período 2026-2031.",
+        impactoREE: "Impacto indirecto: la retribución de distribución incide en los costes del sistema que determinan los peajes.",
+        detail: `<h3>Estado</h3>
+<p>Sustituida por la Circular 8/2025 de la CNMC, aprobada el 22 de diciembre de 2025, que establece la nueva metodología de retribución de la distribución para el período 2026-2031 con TRF del 6,58%.</p>
+<h3>Novedades Circular 8/2025</h3>
 <ul>
-<li>Retribución de la actividad de distribución por empresa</li>
-<li>Costes de inversión y operación reconocidos</li>
-<li>Incentivos de calidad de suministro</li>
+<li>Mayor eficiencia en redes</li>
+<li>Mejora de calidad de suministro</li>
 <li>Incentivos de reducción de pérdidas</li>
-<li>Modelo de empresa eficiente</li>
+<li>Alineación con límites de inversión del Gobierno</li>
+<li>Retribución de inversiones hasta el 0,13% del PIB con valores auditados</li>
 </ul>`
     },
     {
@@ -917,10 +1167,10 @@ const normativaNacional = [
         type: "rd",
         date: "2024-07-10",
         updated: null,
-        tag: "new",
-        tagLabel: "Nuevo",
-        summary: "Regula la ordenación del espacio marítimo para la instalación de parques eólicos offshore en aguas españolas, incluyendo los POEMs (Planes de Ordenación del Espacio Marítimo).",
-        impactoREE: "REE debe desarrollar la red de transporte submarina necesaria para evacuar la generación eólica marina. Implica nuevas tecnologías (HVDC) y significativas inversiones.",
+        tag: "modified",
+        tagLabel: "Vigente",
+        summary: "Regula la ordenación del espacio marítimo para parques eólicos offshore en aguas españolas (POEMs).",
+        impactoREE: "REE debe desarrollar la red de transporte submarina (HVDC) para evacuar la generación eólica marina. Inversiones estimadas de 3.000-5.000 M€ para 2030-2040.",
         detail: `<h3>Zonas de desarrollo</h3>
 <ul>
 <li>Zonas de Alto Potencial (ZAP) en costas de Galicia, Canarias y Andalucía</li>
